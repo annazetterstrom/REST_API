@@ -5,10 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title><?=$title?></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <main>
+  <?php
+  if(isset($_GET['action'])) {
+      
+      // If the user takes the action "register", register here
+      if($_GET['action'] == 'register') {
+        $query = "SELECT COUNT(username) AS num FROM users WHERE username = :username";
+        $statement = $pdo->prepare($query);
+        $statement->execute([":username" => $_POST['username']]);
+        $num = $statement->fetch(PDO::FETCH_ASSOC)['num'];
+        if($num > 0){
+          echo 'Username is already taken!'; 
+        }
+        else{
+          // Create a statement for inserting user into database
+          $statement = $pdo->prepare(
+            "INSERT INTO users (username, password)
+            VALUES (:username, :password)" // Using named placeholders here, easier to read
+          );
+          $statement->execute([
+            ":username" => $_POST['username'], // Use username as a regular string
+            ":password" => password_hash($_POST['password'], PASSWORD_BCRYPT) // Make a hashed password
+          ]);
+          // Tell the user that the new user was added
+          echo "The user {$_POST['username']} was created.";
+        }
+      }
+      // If the user takes the action "login", log the user in
+      if(isset($_POST['loginbutton'])) {
+        $statement = $pdo->prepare("SELECT * FROM users WHERE username = :username"); // Using named placeholders here, easier to read
+        $statement->execute([
+          ":username" => $_POST['username']
+        ]);
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        // Use password_verify() to check if the password is correct
+        if (password_verify($_POST['password'], $user["password"])) {
+          // Set our session to "loggedIn"
+          $_SESSION["loggedIn"] = true;
+          $_SESSION['username'] =  $_POST['username']; // save username in session
+        } else {
+          // Tell the user that the username and password was wrong
+          echo "The username and password did not match.";
+        }
+      }
+    }
+   
+    // Check whether the user is logged in or not
+    // Show different views depending on the users login status
+    if(isset($_SESSION["loggedIn"])) {
+      require 'views/greeting.php';
+    }
+    else {
+      require 'views/login.php';
+     require 'views/register.php';
+    }  
+ 
+  ?>
     <h1><?=$title?></h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas semper elementum ligula non tempor. Donec vel risus eleifend, porttitor sem placerat, elementum odio. Donec pulvinar dui in placerat sagittis. In hac habitasse platea dictumst. Vivamus in imperdiet ex, et lobortis quam. Nullam ut ligula dictum, accumsan tortor id, accumsan odio. Nullam interdum eros odio, iaculis accumsan mi sagittis quis. Praesent tempus rhoncus ipsum ac porta. Quisque sodales quis augue at bibendum.</p>
   </main>
