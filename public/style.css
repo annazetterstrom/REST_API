@@ -1,0 +1,12 @@
+body {
+  background: #ecf0f1;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+main {
+  max-width: 40em;
+}
+
+h1 {
+  color: #e74c3c;
+}
