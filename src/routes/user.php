@@ -12,3 +12,4 @@ return function ($app) {
     return $response->withJson($user->getUserByID($userID));
   })->add($auth);
 };
+
