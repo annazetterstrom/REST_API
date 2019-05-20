@@ -1,24 +1,24 @@
 const views = {
-  login: ['#loginFormTemplate', '#registerFormTemplate']
+  login: ['#loginFormTemplate', '#registerFormTemplate'];
 
 }
 function renderView(view){
   // Definera ett target
-  const target = document.querySelector('main')
+  const target = document.querySelector('main');
 
   // Loopa igenom våran "view"
   view.forEach(template => {
     // Hämta innehållet i templaten
-    console.log(document.querySelector(template))
-    const templateMarkup = document.querySelector(template).innerHTML
+    console.log(document.querySelector(template));
+    const templateMarkup = document.querySelector(template).innerHTML;
  
     // Skapa en div
-    const div = document.createElement('div')
+    const div = document.createElement('div');
     // Fyll i diven med innehållet
-    div.innerHTML = templateMarkup
+    div.innerHTML = templateMarkup;
     
     // Lägg in den diven i target (main-elementet)
-    target.append(div)
+    target.append(div);
   })
 }
 renderView(views.login);
@@ -26,21 +26,23 @@ renderView(views.login);
 const loginForm = document.querySelector('#loginForm')
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
-  console.log('hej', e)
+  console.log('hej', e);
   const formData = new FormData(loginForm)
   fetch ('/api/login', {
     method: 'POST',
     body: formData
   }).then(response => {
     if(!response.ok){
-      renderView(view.loginError)
-      return Error(response.statusText)
+      console.log("fail");
+      renderView(view.loginError);
+      return Error(response.statusText);
     }else{
-      renderView(view.loggedIn)
-      return response.json()
+      console.log("yey");
+      renderView(view.loggedIn);
+      return response.json();
     }
   }).catch(error => {
-      console.error(error)
+      console.error(error);
   })
 })
 
