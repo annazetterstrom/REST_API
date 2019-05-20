@@ -43,7 +43,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link" href="./">Hem</a>
           </li>
@@ -51,13 +51,13 @@
             <a class="nav-link" href="./entries">Mina inlägg</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./logout">Logga ut</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="./users">Se användare</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="./postentry">Skriv inlägg</a>
+          </li>
+          <li class="nav-item btn btn-primary">
+            <a class="nav-link" href="./logout">Logga ut</a>
           </li>
         </ul>
       </div>
@@ -89,7 +89,9 @@
     </nav>
   </template>
 
+  <div id="nav"></div>
   <div class="container">
+  
     <header>
       <h1><?= $title ?></h1>
     </header>

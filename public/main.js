@@ -3,9 +3,8 @@ const views = {
   loggedIn: ['#loggedInNavTemplate']
 
 }
-function renderView(view){
+function renderView(view, target){
   // Definera ett target
-  const target = document.querySelector('main');
 
   // Loopa igenom våran "view"
   view.forEach(template => {
@@ -20,9 +19,10 @@ function renderView(view){
     
     // Lägg in den diven i target (main-elementet)
     target.append(div);
-  })
+  });
 }
-renderView(views.login);
+let target = document.querySelector('main');
+renderView(views.login, target);
 
 const loginForm = document.querySelector('#loginForm')
 loginForm.addEventListener('submit', e => {
@@ -39,7 +39,8 @@ loginForm.addEventListener('submit', e => {
       return Error(response.statusText);
     }else{
       console.log("yey");
-      renderView(views.loggedIn);
+      let target = document.getElementById('nav')
+      renderView(views.loggedIn, target);
       return response.json();
     }
   }).catch(error => {
