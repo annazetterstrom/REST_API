@@ -38,26 +38,26 @@
 
   <template id="loggedInNavTemplate">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <a class="navbar-brand" href="./">Journal</a>
+      <span class="navbar-brand home-link">Journal</span>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./">Hem</a>
+            <span class="nav-link home-link">Hem</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./entries">Mina inlägg</a>
+            <span class="nav-link my-entries-link">Mina inlägg</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./users">Se användare</a>
+            <span class="nav-link userlist-link">Se användare</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./postentry">Skriv inlägg</a>
+            <span class="nav-link post-entry-link">Skriv inlägg</span>
           </li>
           <li class="nav-item btn btn-primary">
-            <a class="nav-link" href="./logout">Logga ut</a>
+            <span class="nav-link logout-link">Logga ut</span>
           </li>
         </ul>
       </div>
@@ -66,27 +66,32 @@
 
   <template id="loggedOutNavTemplate">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <a class="navbar-brand" href="./">Journal</a>
+      <span class="navbar-brand home-link">Journal</span>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./">Hem</a>
+            <span class="nav-link home-link">Hem</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./register">Registrera dig</a>
+            <span class="nav-link register-link">Registrera dig</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./login">Logga in</a>
+            <span class="nav-link login-link">Logga in</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./users">Se användare</a>
+            <span class="nav-link userlist-link">Se användare</span>
           </li>
         </ul>
       </div>
     </nav>
+  </template>
+  
+  <template id="greetingTemplate">
+    <h2>Välkommen till Assbook</h2>
+    <p>🍑I framtiden kommer du bara kunna se bilder på rumpor här men innan dess kommer det gå att posta inlägg🍑</p>
   </template>
 
   <div id="nav"></div>
