@@ -1,5 +1,6 @@
 const views = {
-  login: ['#loginFormTemplate', '#registerFormTemplate'];
+  login: ['#loginFormTemplate', '#registerFormTemplate'],
+  loggedIn: ['#loggedInNavTemplate']
 
 }
 function renderView(view){
@@ -38,7 +39,7 @@ loginForm.addEventListener('submit', e => {
       return Error(response.statusText);
     }else{
       console.log("yey");
-      renderView(view.loggedIn);
+      renderView(views.loggedIn);
       return response.json();
     }
   }).catch(error => {
