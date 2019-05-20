@@ -7,7 +7,7 @@ return function ($app) {
   // Add a login route
   $app->post('/api/login', function ($request, $response) {
     $data = $request->getParsedBody();
-    if ($data['username'] && $data['password']) {
+    if (isset($data['username']) && isset($data['password'])) {
       // In a real example, do database checks here
       $_SESSION['loggedIn'] = true;
       $_SESSION['username'] = $data['username'];
