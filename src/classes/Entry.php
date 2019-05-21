@@ -8,4 +8,6 @@ class Entry extends Mapper {
         ]);
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+   
 }
