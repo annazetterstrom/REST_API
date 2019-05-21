@@ -1,4 +1,5 @@
 let views = {
+  registerView: ['#greetingNewUserTemplate'],
   greeting: ['#greetingTemplate'],
   login: ['#loginFormTemplate'],
   loginError: ['#loginFormTemplate', '#loginErrorTemplate'],
@@ -111,6 +112,40 @@ function addloginlistener(){
         renderView(views.loggedIn, nav);
         main.innerHTML = "";
         renderView(views.greeting, main);
+        return response.json();
+      }
+    }).then(
+      data => {
+        console.log(data);
+      }
+    ).catch(error => {
+        console.error(error);
+    })
+  });
+}
+  // registerar ny nvändare
+function addRegisterlistener(){
+  registerForm = document.querySelector('#registerForm');
+  registerForm.addEventListener('submit', e => {
+    e.preventDefault();
+    console.log('hej', e);
+    const formData = new FormData(registerForm)
+    fetch ('/api/register', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if(!response.ok){
+        console.log("fail");
+        main.innerHTML = "";
+        renderView(views.registerError, main);
+        addRegisterlistener();
+        return Error(response.statusText);
+      }else{
+        console.log("yey");
+        nav.innerHTML = "";
+        renderView(views.loggedOut, nav);
+        main.innerHTML = "";
+        renderView(views.registerView, main);
         return response.json();
       }
     }).then(
