@@ -1,8 +1,7 @@
 <?php
 
-
 class Entry extends Mapper { 
-    public function getEntrybyID($entryID){
+    public function getEntryByID($entryID){
         $statement = $this->db->prepare("SELECT * FROM entries WHERE entryID = :entryID");
         $statement->execute([
             'entryID' => $entryID 
