@@ -5,7 +5,8 @@ let views = {
   loginError: ['#loginFormTemplate', '#loginErrorTemplate'],
   register: ['#registerFormTemplate'],
   loggedIn: ['#loggedInNavTemplate'],
-  loggedOut: ['#loggedOutNavTemplate']
+  loggedOut: ['#loggedOutNavTemplate'],
+  entrySummery: ['#entrySummeryTemplate']
 }
 
 //Ska fås från servern sen:p
@@ -54,7 +55,8 @@ if(loggedIn){
   });
 } else {
   renderView(views.loggedOut, nav);
-  renderView(views.greeting, main);
+  renderView(views.registerView, main);
+  renderView(views.entrySummery, main);
   //"länk element"
   homeLink = document.querySelectorAll('.home-link');
   userlistLink = document.querySelector('.userlist-link');
@@ -123,7 +125,7 @@ function addloginlistener(){
     })
   });
 }
-  // registerar ny nvändare
+// registerar ny nvändare
 function addRegisterlistener(){
   registerForm = document.querySelector('#registerForm');
   registerForm.addEventListener('submit', e => {

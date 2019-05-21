@@ -22,6 +22,12 @@
 
   $user = require __DIR__ . '/../src/routes/user.php';
   $user($app);
+  
+  $user = require __DIR__ . '/../src/routes/entry.php';
+  $user($app);
+  
+  $user = require __DIR__ . '/../src/routes/comment.php';
+  $user($app);
 
   // Run app
   $app->run();
