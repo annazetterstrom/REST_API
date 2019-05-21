@@ -20,7 +20,7 @@ class User extends Mapper {
       $_SESSION['userID'] = $row['userID'];
       return true; 
     }else{
-      return $response->withStatus(401);
+      return false;
     }
   }
 

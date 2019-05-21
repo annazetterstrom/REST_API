@@ -8,14 +8,14 @@ return function ($app) {
   $app->post('/api/login', function ($request, $response) {
     $data = $request->getParsedBody();
     if (isset($data['username']) && isset($data['password'])) {
-      // In a real example, do database checks here
-      $_SESSION['loggedIn'] = true;
-      $_SESSION['username'] = $data['username'];
-
-      return $response->withJson($data);
-    } else {
-      return $response->withStatus(401);
+      $user = new User($this->db);
+      if($user->login($data['username'], $data['password'])){
+        $_SESSION['loggedIn'] = true;
+        $_SESSION['username'] = $data['username'];
+        return $response->withJson(array('logedin' => true, 'username' => $data['username']));
+      }
     }
+    return $response->withStatus(401);
   });
 
   // Add a ping route

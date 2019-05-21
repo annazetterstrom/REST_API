@@ -1,13 +1,16 @@
 let views = {
   greeting: ['#greetingTemplate'],
-  login: ['#loginFormTemplate', '#registerFormTemplate'],
+  login: ['#loginFormTemplate'],
+  loginError: ['#loginFormTemplate', '#loginErrorTemplate'],
+  register: ['#registerFormTemplate'],
   loggedIn: ['#loggedInNavTemplate'],
   loggedOut: ['#loggedOutNavTemplate']
 
+
 }
 
-//variables
-let loggedIn = true;
+//Ska fås från servern sen:p
+let loggedIn = false;
 
 let loginForm;
 //"länk element"
@@ -62,17 +65,26 @@ if(loggedIn){
   //"länk-lyssnare"
   for(let i=0;i<homeLink.length;i++){
     homeLink[i].addEventListener('click', () => {
-      console.log("nu är du i hem");  
+      console.log("nu är du i hem");
+      main.innerHTML = "";
+      renderView(views.greeting, main);
     });
   }
   userlistLink.addEventListener('click', () => {
     console.log("nu är du i userlist");
+    main.innerHTML = "-.-";
   });
   registerLink.addEventListener('click', () => {
     console.log("nu är du i register");
+    main.innerHTML = "";
+    renderView(views.register, main);
+    //lägg till lyssnare
   });
   loginLink.addEventListener('click', () => {
     console.log("nu är du i login");
+    main.innerHTML = "";
+    renderView(views.login, main);
+    addloginlistener();
   });
 }
 
@@ -91,14 +103,23 @@ function addloginlistener(){
     }).then(response => {
       if(!response.ok){
         console.log("fail");
-        renderView(view.loginError);
+        main.innerHTML = "";
+        renderView(views.loginError, main);
+        addloginlistener();
         return Error(response.statusText);
       }else{
         console.log("yey");
-        renderView(views.login, main);
+        nav.innerHTML = "";
+        renderView(views.loggedIn, nav);
+        main.innerHTML = "";
+        renderView(views.greeting, main);
         return response.json();
       }
-    }).catch(error => {
+    }).then(
+      data => {
+        console.log(data);
+      }
+    ).catch(error => {
         console.error(error);
     })
   });
