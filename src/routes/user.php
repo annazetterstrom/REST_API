@@ -11,5 +11,11 @@ return function ($app) {
 
     return $response->withJson($user->getUserByID($userID));
   })->add($auth);
+
+  // Basic protected GET route 
+  $app->get('/users', function ($request, $response, $args) {
+    $user = new User($this->db);
+    return $response->withJson($user->getUsers());
+  });
 };
 
