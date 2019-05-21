@@ -5,8 +5,6 @@ let views = {
   register: ['#registerFormTemplate'],
   loggedIn: ['#loggedInNavTemplate'],
   loggedOut: ['#loggedOutNavTemplate']
-
-
 }
 
 //Ska fås från servern sen:p
