@@ -8,6 +8,12 @@ class User extends Mapper {
     ]);
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  
+  public function getUsers() {
+    $statement = $this->db->prepare("SELECT * FROM users");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 
   public function login($username, $password) {
     $statement = $this->db->prepare("SELECT * FROM users WHERE username = :username");
