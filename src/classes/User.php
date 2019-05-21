@@ -9,6 +9,19 @@ class User extends Mapper {
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
   
+  public function updateUserByID($userID, $username, $password) {
+    //lägg till check på username
+    
+    $statement = $this->db->prepare("UPDATE users SET username = :username, password =:password WHERE userID = :userID");
+    $hash = password_hash($password, PASSWORD_BCRYPT);
+    $statement->execute([
+      ':userID' => $userID,
+      'username' => $username,
+      'password' => $hash
+    ]);
+    return true;
+  }
+  
   public function getUsers() {
     $statement = $this->db->prepare("SELECT * FROM users");
     $statement->execute();

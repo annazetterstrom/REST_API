@@ -13,9 +13,25 @@ return function ($app) {
   })->add($auth);
 
   // Basic protected GET route 
+  $app->put('/user/{id}', function ($request, $response, $args) {
+    $data = $request->getParsedBody();
+    $user = new User($this->db);
+
+    return $response->withJson($user->updateUserByID($data['userID'], $data['username'], $data['password']));
+  })->add($auth);
+  
+  // Basic protected GET route 
+  $app->post('/user', function ($request, $response) {
+    $data = $request->getParsedBody();
+    $user = new User($this->db);
+    return $response->withJson($user->insertUser($data['username'], $data['password']));
+  });
+
+  // Basic protected GET route 
   $app->get('/users', function ($request, $response, $args) {
     $user = new User($this->db);
     return $response->withJson($user->getUsers());
   });
+  
 };
 
