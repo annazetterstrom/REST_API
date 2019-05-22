@@ -1,5 +1,5 @@
 let views = {
-  entryComment: ['#entryTemplate'],
+  entries: ['#entryTemplate'],
   commentSummary: ['#entrySummaryTemplate'],
   comment: ['#commentsTemplate'],
   registerSuccess: ['#greetingNewUserTemplate'],
@@ -43,6 +43,7 @@ if(loggedIn){
   renderView(views.loggedIn, nav);
   renderView(views.greeting, main);
   renderView(views.comment, main); // vet ej om detta ska vara här. tillhör commentsTemplate
+  renderView(views.entrySummery, main);
   addLoggedInNavListeners();
 } else {
   renderView(views.loggedOut, nav);
