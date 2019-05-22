@@ -1,5 +1,8 @@
 let views = {
   entries: ['#entryTemplate'],
+  entrySummery: ['#entrySummeryTemplate'],
+  entrySummeryError: ['#entrySummeryErrorTemplate'],
+  entryError: ['#entryErrorTemplate'],
   comment: ['#commentsTemplate'],
   registerSuccess: ['#greetingNewUserTemplate'],
   registerError: ['#registerFormTemplate', '#registerErrorTemplate'],
@@ -11,7 +14,6 @@ let views = {
   loggedOut: ['#loggedOutNavTemplate'],
   loggedOutError: ['#logoutErrorTemplate'],
   loggedOutSuccess: ['#logoutSuccessTemplate'],
-  entrySummery: ['#entrySummeryTemplate'],
   entriesError: ['#entriesErrorTemplate']
 }
 
@@ -218,7 +220,7 @@ function summaryEntryListener(){
       if(!response.ok){
         console.log("fail");
         main.innerHTML = "";
-        renderView(views.summaryError, main);
+        renderView(views. entrySummeryError, main);
         addloginlistener();
         return Error(response.statusText);
       }else{
@@ -230,7 +232,7 @@ function summaryEntryListener(){
     }).then(data => {
         if(!data.comment){
           main.innerHTML = "";
-          renderView(views.summaryError, main);
+          renderView(views.entrySummaryError, main);
           addloginlistener();
         } else {
           nav.innerHTML = "";
@@ -238,7 +240,7 @@ function summaryEntryListener(){
           addLoggedInNavListeners();
           //add nav listeners
           main.innerHTML = "";
-          renderView(views.entrySummary, main);
+          renderView(views.entrySummeryError, main);
         }
         console.log(data);
       }
