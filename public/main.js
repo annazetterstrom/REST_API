@@ -220,7 +220,50 @@ function summaryEntryListener(){
       if(!response.ok){
         console.log("fail");
         main.innerHTML = "";
-        renderView(views. entrySummeryError, main);
+        renderView(views.entrySummeryError, main);
+        addloginlistener();
+        return Error(response.statusText);
+      }else{
+        console.log("yey");
+        nav.innerHTML = "";
+        renderView(views.entrySuccess, nav);
+        return response.json();
+      }
+    }).then(data => {
+        if(!data.comment){
+          main.innerHTML = "";
+          renderView(views.entryError, main);
+          addloginlistener();
+        } else {
+          nav.innerHTML = "";
+          renderView(views.entrySuccess, nav);
+          addLoggedInNavListeners();
+          //add nav listeners
+          main.innerHTML = "";
+          renderView(views.entrySummary, main);
+        }
+        console.log(data);
+      }
+    ).catch(error => {
+        console.error(error);
+    })
+  });
+}
+// Visa allt, Titel och Innehåll, ej sammanfattat
+
+function enriesTitelAndContent(){
+  TitelAndContentForm = document.querySelector('#TitelAndContentForm');
+  TitelAndContentForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(TitelAndContentForm)
+    fetch ('/api/TitelAndContent', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if(!response.ok){
+        console.log("fail");
+        main.innerHTML = "";
+        renderView(views.commentError, main);
         addloginlistener();
         return Error(response.statusText);
       }else{
@@ -241,6 +284,7 @@ function summaryEntryListener(){
           //add nav listeners
           main.innerHTML = "";
           renderView(views.entrySummeryError, main);
+          renderView(views.comment, main);
         }
         console.log(data);
       }
@@ -249,7 +293,6 @@ function summaryEntryListener(){
     })
   });
 }
-
 
 function addLoggedInNavListeners(){
   homeLink = document.querySelectorAll('.home-link');
