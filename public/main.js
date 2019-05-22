@@ -1,6 +1,5 @@
 let views = {
   entries: ['#entryTemplate'],
-  commentSummary: ['#entrySummaryTemplate'],
   comment: ['#commentsTemplate'],
   registerSuccess: ['#greetingNewUserTemplate'],
   registerError: ['#registerFormTemplate', '#registerErrorTemplate'],
