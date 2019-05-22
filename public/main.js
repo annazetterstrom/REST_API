@@ -1,6 +1,6 @@
 let views = {
   entryComment: ['#entryTemplate'],
-  commentSummary: ['#entrySummaryTemplate'],
+  entrySummery: ['#entrySummaryTemplate'],
   comment: ['#commentsTemplate'],
   registerSuccess: ['#greetingNewUserTemplate'],
   registerError: ['#registerFormTemplate', '#registerErrorTemplate'],
@@ -12,7 +12,6 @@ let views = {
   loggedOut: ['#loggedOutNavTemplate'],
   loggedOutError: ['#logoutErrorTemplate'],
   loggedOutSuccess: ['#logoutSuccessTemplate'],
-  entrySummery: ['#entrySummeryTemplate']
 }
 
 //Fullösning: om $_SESSION['loggedIn'] är true i servern så laddar vi in en template med id=loggedIn i html just nu... It aint fancy but it works:p
@@ -162,7 +161,7 @@ function logout(){
       console.error(error);
   });
 }
- // ny template -----> ej klar måste göras om
+ // Visar kommentarer
 function commentsListener(){
   commentForm = document.querySelector('#commentForm');
   commentForm.addEventListener('submit', e => {
@@ -204,10 +203,10 @@ function commentsListener(){
     })
   });
 }
- // visar summerade kommentarer 
-function summaryCommentsListener(){
-  commentForm = document.querySelector('#summaryEntryForm');
-  commentForm.addEventListener('submit', e => {
+ // visar summerade inlägg 
+function summaryEntryListener(){
+  summaryEntryForm = document.querySelector('#summaryEntryForm');
+  summaryEntryForm.addEventListener('submit', e => {
     e.preventDefault();
     const formData = new FormData(summaryEntryForm)
     fetch ('/api/summaryEntry', {
@@ -237,7 +236,7 @@ function summaryCommentsListener(){
           addLoggedInNavListeners();
           //add nav listeners
           main.innerHTML = "";
-          renderView(views.commentSummary, main);
+          renderView(views.entrySummary, main);
         }
         console.log(data);
       }
