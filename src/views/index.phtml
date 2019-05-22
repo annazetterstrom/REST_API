@@ -17,45 +17,45 @@
     }
   ?>
   <template id="loginFormTemplate">
-    <h2>Log in</h2>
+    <h2>Logga in</h2>
     <form id="loginForm">
-      <label for="username">Username:</label>
+      <label for="username">Användarnamn:</label>
       <input type="text" name="username" id="username">
-
-      <label for="password">Password:</label>
+<br>  
+      <label for="password">Lösenord:</label>
       <input type="password" name="password" id="password">
-
-      <button type="submit">Log in</button>
+<br> <br>
+      <button type="submit">Logga in</button>
     </form>
   </template>
 
   <template id="registerFormTemplate">
-    <h2>Register new user</h2>
+    <h2>Registrera en ny användare</h2>
     <form id="registerForm">
-      <label for="username">Username:</label>
+      <label for="username">Användarnamn:</label>
       <input type="text" name="username" id="username">
-
-      <label for="password">Password:</label>
+<br>
+      <label for="password">Lösenord:</label>
       <input type="password" name="password" id="password">
-
-      <button type="submit">Register</button>
+<br> <br>
+      <button type="submit">Registrera</button>
     </form>
   </template> 
 
   <template id="loginErrorTemplate">
-    <p>Något blev fel med inloggningen :/</p>
+    <p class="error">Något blev fel med inloggningen :/</p>
   </template>
 
   <template id="registerErrorTemplate">
-    <p>Något blev fel med registreringen :/</p>
+    <p class="error">Något blev fel med registreringen :/</p>
   </template>
   
   <template id="logoutErrorTemplate">
-    <p>Något blev fel med utloggningen :/</p>
+    <p class="error">Något blev fel med utloggningen :/</p>
   </template>
   
   <template id="logoutSuccessTemplate">
-    <p>Du är utloggad</p>
+    <p class="error">Du är utloggad</p>
   </template>
 
   <template id="loggedInNavTemplate">

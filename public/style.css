@@ -4,6 +4,12 @@ body {
   padding: 0;
   margin: 0;
 }
+header>h1{
+  padding: 20px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 3em;
+  color: brown;
+}
 
 .container{
   border: 2px solid black; 
@@ -25,4 +31,10 @@ header>h1{
 
 main {
   padding: 10px 20px; 
+}
+
+.error{
+  color: #e74c3c;
+  font-family: serif;
+  font-size: 20px;
 }
