@@ -12,7 +12,8 @@ let views = {
   loggedOut: ['#loggedOutNavTemplate'],
   loggedOutError: ['#logoutErrorTemplate'],
   loggedOutSuccess: ['#logoutSuccessTemplate'],
-  entrySummery: ['#entrySummeryTemplate']
+  entrySummery: ['#entrySummeryTemplate'],
+  entriesError: ['#entriesErrorTemplate']
 }
 
 //Fullösning: om $_SESSION['loggedIn'] är true i servern så laddar vi in en template med id=loggedIn i html just nu... It aint fancy but it works:p
@@ -333,4 +334,30 @@ function renderView(view, target){
   });
 }
 
-
+function getEntries(){
+  fetch ('/api/entries', {
+    method: 'GET'
+  }).then(response => {
+    if(!response.ok){
+      console.log("fail");
+      main.innerHTML = "";
+      renderView(views.entriesError, main);
+      return Error(response.statusText);
+    }else{
+      console.log("yey");
+      return response.json();
+    }
+  }).then(data => {
+    console.log(data);
+    if(data.length < 1){
+      main.innerHTML = "Det finns inga inlägg";
+    } else {
+      main.innerHTML = "";
+      renderView(views.entrySummery, main);
+      nav.innerHTML = "";
+      }
+    }
+  ).catch(error => {
+    console.error(error);
+  });
+}
