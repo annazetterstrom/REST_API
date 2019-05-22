@@ -1,4 +1,5 @@
 let views = {
+  comment: ['#commentsTemplate'],
   registerSuccess: ['#greetingNewUserTemplate'],
   registerError: ['#registerFormTemplate', '#registerErrorTemplate'],
   greeting: ['#greetingTemplate'],
@@ -38,6 +39,7 @@ let main = document.querySelector('main');
 if(loggedIn){
   renderView(views.loggedIn, nav);
   renderView(views.greeting, main);
+  renderView(views.comment, main); // vet ej om detta ska vara här. tillhör commentsTemplate
   addLoggedInNavListeners();
 } else {
   renderView(views.loggedOut, nav);
@@ -157,6 +159,50 @@ function logout(){
       console.error(error);
   });
 }
+ // ny template -----> ej klar måste göras om
+function commentsListener(){
+  commentForm = document.querySelector('#commentForm');
+  commentForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(commentForm)
+    fetch ('/api/comment', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if(!response.ok){
+        console.log("fail");
+        main.innerHTML = "";
+        renderView(views.commentError, main);
+        addloginlistener();
+        return Error(response.statusText);
+      }else{
+        console.log("yey");
+        nav.innerHTML = "";
+        renderView(views.commentSuccess, nav);
+        return response.json();
+      }
+    }).then(data => {
+        if(!data.comment){
+          main.innerHTML = "";
+          renderView(views.commentError, main);
+          addloginlistener();
+        } else {
+          nav.innerHTML = "";
+          renderView(views.commentSuccess, nav);
+          addLoggedInNavListeners();
+          //add nav listeners
+          main.innerHTML = "";
+          renderView(views.comment, main);
+        }
+        console.log(data);
+      }
+    ).catch(error => {
+        console.error(error);
+    })
+  });
+}
+
+
 function addLoggedInNavListeners(){
   homeLink = document.querySelectorAll('.home-link');
   userlistLink = document.querySelector('.userlist-link');
