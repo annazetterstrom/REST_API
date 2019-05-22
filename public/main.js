@@ -41,7 +41,7 @@ let main = document.querySelector('main');
 if(loggedIn){
   renderView(views.loggedIn, nav);
   renderView(views.greeting, main);
-  renderView(views.comment, main); // vet ej om detta ska vara här. tillhör commentsTemplate
+  renderView(views.comment, main); 
   renderView(views.entrySummery, main);
   addLoggedInNavListeners();
 } else {
@@ -224,17 +224,17 @@ function summaryEntryListener(){
       }else{
         console.log("yey");
         nav.innerHTML = "";
-        renderView(views.commentSuccess, nav);
+        renderView(views.summarySuccess, nav);
         return response.json();
       }
     }).then(data => {
         if(!data.comment){
           main.innerHTML = "";
-          renderView(views.commentError, main);
+          renderView(views.summaryError, main);
           addloginlistener();
         } else {
           nav.innerHTML = "";
-          renderView(views.commentSuccess, nav);
+          renderView(views.summarySuccess, nav);
           addLoggedInNavListeners();
           //add nav listeners
           main.innerHTML = "";
