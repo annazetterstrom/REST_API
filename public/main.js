@@ -12,7 +12,7 @@ let views = {
   entrySummery: ['#entrySummeryTemplate']
 }
 
-//Ska fås från servern sen:p
+//Fullösning: om $_SESSION['loggedIn'] är true i servern så laddar vi in en template med id=loggedIn i html just nu... It aint fancy but it works:p
 let logintag = document.getElementById('loggedIn');
 let loggedIn;
 if(logintag){
@@ -32,11 +32,9 @@ let logoutLink;
 let registerLink;
 let loginLink;
 
-//elements
 let nav = document.querySelector('#nav');
 let main = document.querySelector('main');
 
-//saker som behöver köras när sidan laddats
 if(loggedIn){
   renderView(views.loggedIn, nav);
   renderView(views.greeting, main);
@@ -49,8 +47,6 @@ if(loggedIn){
 }
 
 //funktioner
-
-//greja med någon gång, ska inte vara såhär :s
 function addloginlistener(){
   loginForm = document.querySelector('#loginForm');
   loginForm.addEventListener('submit', e => {
@@ -92,7 +88,7 @@ function addloginlistener(){
     })
   });
 }
-// registerar ny nvändare
+
 function addRegisterlistener(){
   registerForm = document.querySelector('#registerForm');
   registerForm.addEventListener('submit', e => {
@@ -187,6 +183,7 @@ function addLoggedInNavListeners(){
     console.log("nu är du i userlist");
   });
 }
+
 function addLoggedOutNavListeners(){
   homeLink = document.querySelectorAll('.home-link');
   userlistLink = document.querySelector('.userlist-link');
