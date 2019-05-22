@@ -263,27 +263,27 @@ function enriesTitelAndContent(){
       if(!response.ok){
         console.log("fail");
         main.innerHTML = "";
-        renderView(views.entriesError, main);
+        renderView(views.entryError, main);
         addloginlistener();
         return Error(response.statusText);
       }else{
         console.log("yey");
         nav.innerHTML = "";
-        renderView(views.entriesSuccess, nav);
+        renderView(views.entrySuccess, nav);
         return response.json();
       }
     }).then(data => {
         if(!data.comment){
           main.innerHTML = "";
-          renderView(views.entriesError, main);
+          renderView(views.entryError, main);
           addloginlistener();
         } else {
           nav.innerHTML = "";
-          renderView(views.entriesSuccess, nav);
+          renderView(views.entrySuccess, nav);
           addLoggedInNavListeners();
           //add nav listeners
           main.innerHTML = "";
-          renderView(views.entriesError, main);
+          renderView(views.entryError, main);
           renderView(views.entries, main);
         }
         console.log(data);
