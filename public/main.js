@@ -164,22 +164,27 @@ function addLoggedInNavListeners(){
   postEntryLink = document.querySelector('.post-entry-link');
   logoutLink = document.querySelector('.logout-link');
 
-  myEntriesLink.addEventListener('click', () => {
+  myEntriesLink.addEventListener('click', (e) => {
+    e.preventDefault();
     console.log("nu är du i myentries");
   });
-  postEntryLink.addEventListener('click', () => {
+  postEntryLink.addEventListener('click', (e) => {
+    e.preventDefault();
     console.log("nu är du i postentry");
   });
-  logoutLink.addEventListener('click', () => {
+  logoutLink.addEventListener('click', (e) => {
+    e.preventDefault();
     console.log("nu är du i logout");
     logout();
   });
   for(let i=0;i<homeLink.length;i++){
-    homeLink[i].addEventListener('click', () => {
+    homeLink[i].addEventListener('click', (e) => {
+      e.preventDefault();
       console.log("nu är du i hem");
     });
   }
-  userlistLink.addEventListener('click', () => {
+  userlistLink.addEventListener('click', (e) => {
+    e.preventDefault();
     console.log("nu är du i userlist");
   });
 }
@@ -191,23 +196,27 @@ function addLoggedOutNavListeners(){
   loginLink = document.querySelector('.login-link');
 
   for(let i=0;i<homeLink.length;i++){
-    homeLink[i].addEventListener('click', () => {
+    homeLink[i].addEventListener('click', (e) => {
+      e.preventDefault();
       console.log("nu är du i hem");
       main.innerHTML = "";
       renderView(views.greeting, main);
     });
   }
-  userlistLink.addEventListener('click', () => {
+  userlistLink.addEventListener('click', (e) => {
+    e.preventDefault();
     console.log("nu är du i userlist");
     main.innerHTML = "-.-";
   });
-  registerLink.addEventListener('click', () => {
+  registerLink.addEventListener('click', (e) => {
+    e.preventDefault();
     console.log("nu är du i register");
     main.innerHTML = "";
     renderView(views.register, main);
     addRegisterlistener();
   });
-  loginLink.addEventListener('click', () => {
+  loginLink.addEventListener('click', (e) => {
+    e.preventDefault();
     console.log("nu är du i login");
     main.innerHTML = "";
     renderView(views.login, main);
