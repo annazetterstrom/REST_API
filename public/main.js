@@ -1,6 +1,8 @@
 let views = {
   entries: ['#entryTemplate'],
-  commentSummary: ['#entrySummaryTemplate'],
+  entrySummery: ['#entrySummeryTemplate'],
+  entrySummeryError: ['#entrySummeryErrorTemplate'],
+  entryError: ['#entryErrorTemplate'],
   comment: ['#commentsTemplate'],
   registerSuccess: ['#greetingNewUserTemplate'],
   registerError: ['#registerFormTemplate', '#registerErrorTemplate'],
@@ -42,7 +44,7 @@ let main = document.querySelector('main');
 if(loggedIn){
   renderView(views.loggedIn, nav);
   renderView(views.greeting, main);
-  renderView(views.comment, main); // vet ej om detta ska vara här. tillhör commentsTemplate
+  renderView(views.comment, main); 
   renderView(views.entrySummery, main);
   addLoggedInNavListeners();
 } else {
@@ -165,7 +167,7 @@ function logout(){
       console.error(error);
   });
 }
- // ny template -----> ej klar måste göras om
+ // Visar kommentarer
 function commentsListener(){
   commentForm = document.querySelector('#commentForm');
   commentForm.addEventListener('submit', e => {
@@ -207,10 +209,10 @@ function commentsListener(){
     })
   });
 }
- // visar summerade kommentarer 
-function summaryCommentsListener(){
-  commentForm = document.querySelector('#summaryEntryForm');
-  commentForm.addEventListener('submit', e => {
+ // visar summerade inlägg 
+function summaryEntryListener(){
+  summaryEntryForm = document.querySelector('#summaryEntryForm');
+  summaryEntryForm.addEventListener('submit', e => {
     e.preventDefault();
     const formData = new FormData(summaryEntryForm)
     fetch ('/api/summaryEntry', {
@@ -220,27 +222,27 @@ function summaryCommentsListener(){
       if(!response.ok){
         console.log("fail");
         main.innerHTML = "";
-        renderView(views.summaryError, main);
+        renderView(views.entrySummeryError, main);
         addloginlistener();
         return Error(response.statusText);
       }else{
         console.log("yey");
         nav.innerHTML = "";
-        renderView(views.commentSuccess, nav);
+        renderView(views.entrySuccess, nav);
         return response.json();
       }
     }).then(data => {
         if(!data.comment){
           main.innerHTML = "";
-          renderView(views.commentError, main);
+          renderView(views.entryError, main);
           addloginlistener();
         } else {
           nav.innerHTML = "";
-          renderView(views.commentSuccess, nav);
+          renderView(views.entrySuccess, nav);
           addLoggedInNavListeners();
           //add nav listeners
           main.innerHTML = "";
-          renderView(views.commentSummary, main);
+          renderView(views.entrySummary, main);
         }
         console.log(data);
       }
@@ -249,7 +251,50 @@ function summaryCommentsListener(){
     })
   });
 }
+// Visa allt, Titel och Innehåll, ej sammanfattat
 
+function enriesTitelAndContent(){
+  TitelAndContentForm = document.querySelector('#TitelAndContentForm');
+  TitelAndContentForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(TitelAndContentForm)
+    fetch ('/api/TitelAndContent', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if(!response.ok){
+        console.log("fail");
+        main.innerHTML = "";
+        renderView(views.entriesError, main);
+        addloginlistener();
+        return Error(response.statusText);
+      }else{
+        console.log("yey");
+        nav.innerHTML = "";
+        renderView(views.entriesSuccess, nav);
+        return response.json();
+      }
+    }).then(data => {
+        if(!data.comment){
+          main.innerHTML = "";
+          renderView(views.entriesError, main);
+          addloginlistener();
+        } else {
+          nav.innerHTML = "";
+          renderView(views.entriesSuccess, nav);
+          addLoggedInNavListeners();
+          //add nav listeners
+          main.innerHTML = "";
+          renderView(views.entriesError, main);
+          renderView(views.entries, main);
+        }
+        console.log(data);
+      }
+    ).catch(error => {
+        console.error(error);
+    })
+  });
+}
 
 function addLoggedInNavListeners(){
   homeLink = document.querySelectorAll('.home-link');
