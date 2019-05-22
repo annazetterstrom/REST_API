@@ -41,7 +41,7 @@ let main = document.querySelector('main');
 if(loggedIn){
   renderView(views.loggedIn, nav);
   renderView(views.greeting, main);
-  renderView(views.comment, main); // vet ej om detta ska vara här. tillhör commentsTemplate
+  renderView(views.comment, main); 
   renderView(views.entrySummery, main);
   addLoggedInNavListeners();
 } else {
@@ -163,7 +163,7 @@ function logout(){
       console.error(error);
   });
 }
- // ny template -----> ej klar måste göras om
+ // Visar kommentarer
 function commentsListener(){
   commentForm = document.querySelector('#commentForm');
   commentForm.addEventListener('submit', e => {
@@ -205,10 +205,10 @@ function commentsListener(){
     })
   });
 }
- // visar summerade kommentarer 
-function summaryCommentsListener(){
-  commentForm = document.querySelector('#summaryEntryForm');
-  commentForm.addEventListener('submit', e => {
+ // visar summerade inlägg 
+function summaryEntryListener(){
+  summaryEntryForm = document.querySelector('#summaryEntryForm');
+  summaryEntryForm.addEventListener('submit', e => {
     e.preventDefault();
     const formData = new FormData(summaryEntryForm)
     fetch ('/api/summaryEntry', {
@@ -224,21 +224,21 @@ function summaryCommentsListener(){
       }else{
         console.log("yey");
         nav.innerHTML = "";
-        renderView(views.commentSuccess, nav);
+        renderView(views.summarySuccess, nav);
         return response.json();
       }
     }).then(data => {
         if(!data.comment){
           main.innerHTML = "";
-          renderView(views.commentError, main);
+          renderView(views.summaryError, main);
           addloginlistener();
         } else {
           nav.innerHTML = "";
-          renderView(views.commentSuccess, nav);
+          renderView(views.summarySuccess, nav);
           addLoggedInNavListeners();
           //add nav listeners
           main.innerHTML = "";
-          renderView(views.commentSummary, main);
+          renderView(views.entrySummary, main);
         }
         console.log(data);
       }
