@@ -8,6 +8,24 @@ class User extends Mapper {
     ]);
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  public function register($username, $password) {
+    $hash = password_hash($password, PASSWORD_BCRYPT);
+    $statement = $this->db->prepare("SELECT COUNT(username) AS num FROM users WHERE username = :username");
+    $statement->execute([
+      ':username' => $username
+    ]);
+    $num = $statement->fetch(PDO::FETCH_ASSOC)['num'];
+    if($num==0){
+      $statement = $this->db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+      $statement->execute([
+        ':username' => $username,
+        ':password' => $hash
+      ]);
+      return true;
+    } else {
+      return false;
+    }
+  }
   
   public function updateUserByID($userID, $username, $password) {
     //lägg till check på username

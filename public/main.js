@@ -1,18 +1,28 @@
 let views = {
-  registerView: ['#greetingNewUserTemplate'],
+  registerSuccess: ['#greetingNewUserTemplate'],
+  registerError: ['#registerFormTemplate', '#registerErrorTemplate'],
   greeting: ['#greetingTemplate'],
   login: ['#loginFormTemplate'],
   loginError: ['#loginFormTemplate', '#loginErrorTemplate'],
   register: ['#registerFormTemplate'],
   loggedIn: ['#loggedInNavTemplate'],
   loggedOut: ['#loggedOutNavTemplate'],
+  loggedOutError: ['#logoutErrorTemplate'],
+  loggedOutSuccess: ['#logoutSuccessTemplate'],
   entrySummery: ['#entrySummeryTemplate']
 }
 
 //Ska fås från servern sen:p
-let loggedIn = false;
+let logintag = document.getElementById('loggedIn');
+let loggedIn;
+if(logintag){
+   loggedIn = true;
+} else {
+  loggedIn = false;
+}
 
 let loginForm;
+let registerForm;
 //"länk element"
 let homeLink;
 let myEntriesLink;
@@ -30,63 +40,12 @@ let main = document.querySelector('main');
 if(loggedIn){
   renderView(views.loggedIn, nav);
   renderView(views.greeting, main);
-  homeLink = document.querySelectorAll('.home-link');
-  userlistLink = document.querySelector('.userlist-link');
-  myEntriesLink = document.querySelector('.my-entries-link');
-  postEntryLink = document.querySelector('.post-entry-link');
-  logoutLink = document.querySelector('.logout-link');
-
-  myEntriesLink.addEventListener('click', () => {
-    console.log("nu är du i myentries");
-  });
-  postEntryLink.addEventListener('click', () => {
-    console.log("nu är du i postentry");
-  });
-  logoutLink.addEventListener('click', () => {
-    console.log("nu är du i logout");
-  });
-  for(let i=0;i<homeLink.length;i++){
-    homeLink[i].addEventListener('click', () => {
-      console.log("nu är du i hem");
-    });
-  }
-  userlistLink.addEventListener('click', () => {
-    console.log("nu är du i userlist");
-  });
+  addLoggedInNavListeners();
 } else {
   renderView(views.loggedOut, nav);
-  renderView(views.registerView, main);
+  renderView(views.registerSuccess, main);
   renderView(views.entrySummery, main);
-  //"länk element"
-  homeLink = document.querySelectorAll('.home-link');
-  userlistLink = document.querySelector('.userlist-link');
-  registerLink = document.querySelector('.register-link');
-  loginLink = document.querySelector('.login-link');
-
-  //"länk-lyssnare"
-  for(let i=0;i<homeLink.length;i++){
-    homeLink[i].addEventListener('click', () => {
-      console.log("nu är du i hem");
-      main.innerHTML = "";
-      renderView(views.greeting, main);
-    });
-  }
-  userlistLink.addEventListener('click', () => {
-    console.log("nu är du i userlist");
-    main.innerHTML = "-.-";
-  });
-  registerLink.addEventListener('click', () => {
-    console.log("nu är du i register");
-    main.innerHTML = "";
-    renderView(views.register, main);
-    //lägg till lyssnare
-  });
-  loginLink.addEventListener('click', () => {
-    console.log("nu är du i login");
-    main.innerHTML = "";
-    renderView(views.login, main);
-    addloginlistener();
-  });
+  addLoggedOutNavListeners();
 }
 
 //funktioner
@@ -96,7 +55,6 @@ function addloginlistener(){
   loginForm = document.querySelector('#loginForm');
   loginForm.addEventListener('submit', e => {
     e.preventDefault();
-    console.log('hej', e);
     const formData = new FormData(loginForm)
     fetch ('/api/login', {
       method: 'POST',
@@ -112,12 +70,21 @@ function addloginlistener(){
         console.log("yey");
         nav.innerHTML = "";
         renderView(views.loggedIn, nav);
-        main.innerHTML = "";
-        renderView(views.greeting, main);
         return response.json();
       }
-    }).then(
-      data => {
+    }).then(data => {
+        if(!data.loggedIn){
+          main.innerHTML = "";
+          renderView(views.loginError, main);
+          addloginlistener();
+        } else {
+          nav.innerHTML = "";
+          renderView(views.loggedIn, nav);
+          addLoggedInNavListeners();
+          //add nav listeners
+          main.innerHTML = "";
+          renderView(views.greeting, main);
+        }
         console.log(data);
       }
     ).catch(error => {
@@ -144,19 +111,110 @@ function addRegisterlistener(){
         return Error(response.statusText);
       }else{
         console.log("yey");
-        nav.innerHTML = "";
-        renderView(views.loggedOut, nav);
-        main.innerHTML = "";
-        renderView(views.registerView, main);
         return response.json();
       }
-    }).then(
-      data => {
+    }).then(data => {
         console.log(data);
+        if(data.registred){
+          main.innerHTML = "";
+          renderView(views.registerSuccess, main);
+        } else {
+          main.innerHTML = "";
+          renderView(views.registerError, main);
+          addRegisterlistener();
+        }
       }
     ).catch(error => {
         console.error(error);
-    })
+    });
+  });
+}
+
+function logout(){
+  fetch ('/api/logout', {
+    method: 'GET'
+  }).then(response => {
+    if(!response.ok){
+      console.log("fail");
+      main.innerHTML = "";
+      renderView(views.logoutError, main);
+      return Error(response.statusText);
+    }else{
+      console.log("yey");
+      return response.json();
+    }
+  }).then(data => {
+      console.log(data);
+      if(data.loggedOut){
+        nav.innerHTML = "";
+        renderView(views.loggedOut, nav);
+        addLoggedOutNavListeners();
+        main.innerHTML = "";
+        renderView(views.loggedOutSuccess, main);
+      } else {
+        main.innerHTML = "";
+        renderView(views.loggedOutError, main);
+        nav.innerHTML = "";
+      }
+    }
+  ).catch(error => {
+      console.error(error);
+  });
+}
+function addLoggedInNavListeners(){
+  homeLink = document.querySelectorAll('.home-link');
+  userlistLink = document.querySelector('.userlist-link');
+  myEntriesLink = document.querySelector('.my-entries-link');
+  postEntryLink = document.querySelector('.post-entry-link');
+  logoutLink = document.querySelector('.logout-link');
+
+  myEntriesLink.addEventListener('click', () => {
+    console.log("nu är du i myentries");
+  });
+  postEntryLink.addEventListener('click', () => {
+    console.log("nu är du i postentry");
+  });
+  logoutLink.addEventListener('click', () => {
+    console.log("nu är du i logout");
+    logout();
+  });
+  for(let i=0;i<homeLink.length;i++){
+    homeLink[i].addEventListener('click', () => {
+      console.log("nu är du i hem");
+    });
+  }
+  userlistLink.addEventListener('click', () => {
+    console.log("nu är du i userlist");
+  });
+}
+function addLoggedOutNavListeners(){
+  homeLink = document.querySelectorAll('.home-link');
+  userlistLink = document.querySelector('.userlist-link');
+  registerLink = document.querySelector('.register-link');
+  loginLink = document.querySelector('.login-link');
+
+  for(let i=0;i<homeLink.length;i++){
+    homeLink[i].addEventListener('click', () => {
+      console.log("nu är du i hem");
+      main.innerHTML = "";
+      renderView(views.greeting, main);
+    });
+  }
+  userlistLink.addEventListener('click', () => {
+    console.log("nu är du i userlist");
+    main.innerHTML = "-.-";
+  });
+  registerLink.addEventListener('click', () => {
+    console.log("nu är du i register");
+    main.innerHTML = "";
+    renderView(views.register, main);
+    addRegisterlistener();
+  });
+  loginLink.addEventListener('click', () => {
+    console.log("nu är du i login");
+    main.innerHTML = "";
+    renderView(views.login, main);
+    addloginlistener();
   });
 }
 
@@ -166,7 +224,6 @@ function renderView(view, target){
   // Loopa igenom våran "view"
   view.forEach(template => {
     // Hämta innehållet i templaten
-    console.log(document.querySelector(template));
     const templateMarkup = document.querySelector(template).innerHTML;
  
     // Skapa en div

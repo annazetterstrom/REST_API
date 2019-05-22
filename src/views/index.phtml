@@ -9,7 +9,13 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-
+  <?php
+    if(isset($_SESSION['loggedIn'])){
+  ?>
+  <template id="loggedIn"></template>
+  <?php
+    }
+  ?>
   <template id="loginFormTemplate">
     <h2>Log in</h2>
     <form id="loginForm">
@@ -38,6 +44,18 @@
 
   <template id="loginErrorTemplate">
     <p>Något blev fel med inloggningen :/</p>
+  </template>
+
+  <template id="registerErrorTemplate">
+    <p>Något blev fel med registreringen :/</p>
+  </template>
+  
+  <template id="logoutErrorTemplate">
+    <p>Något blev fel med utloggningen :/</p>
+  </template>
+  
+  <template id="logoutSuccessTemplate">
+    <p>Du är utloggad</p>
   </template>
 
   <template id="loggedInNavTemplate">
