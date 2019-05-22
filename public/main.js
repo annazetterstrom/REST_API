@@ -14,6 +14,10 @@ let views = {
   loggedOut: ['#loggedOutNavTemplate'],
   loggedOutError: ['#logoutErrorTemplate'],
   loggedOutSuccess: ['#logoutSuccessTemplate'],
+  entrySummery: ['#entrySummaryTemplate'],
+
+  entrySummery: ['#entrySummaryTemplate'],
+
   entriesError: ['#entriesErrorTemplate']
 }
 
@@ -48,8 +52,9 @@ if(loggedIn){
   addLoggedInNavListeners();
 } else {
   renderView(views.loggedOut, nav);
-  renderView(views.registerSuccess, main);
+  renderView(views.registerSuccess, main); 
   renderView(views.entrySummery, main);
+  getEntries();
   addLoggedOutNavListeners();
 }
 
@@ -379,30 +384,37 @@ function renderView(view, target){
   });
 }
 
+function renderEntry(view, target, entryData){
+
+  let templateMarkup = document.querySelector(template).innerHTML;
+  
+}
+
 function getEntries(){
   fetch ('/api/entries', {
     method: 'GET'
   }).then(response => {
     if(!response.ok){
-      console.log("fail");
       main.innerHTML = "";
       renderView(views.entriesError, main);
       return Error(response.statusText);
     }else{
-      console.log("yey");
       return response.json();
     }
   }).then(data => {
-    console.log(data);
     if(data.length < 1){
       main.innerHTML = "Det finns inga inlägg";
     } else {
       main.innerHTML = "";
-      renderView(views.entrySummery, main);
-      nav.innerHTML = "";
+      console.log(data)
+      data.forEach(entry => {
+        console.log(entry);
+        renderView(views.entrySummery, main);
+      })
       }
     }
   ).catch(error => {
     console.error(error);
   });
 }
+
