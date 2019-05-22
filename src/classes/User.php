@@ -55,6 +55,7 @@ class User extends Mapper {
     if(password_verify($password, $row['password'])){
       $_SESSION['loggedIn'] = true;
       $_SESSION['userID'] = $row['userID'];
+      $_SESSION['username'] = $data['username'];
       return true; 
     }else{
       return false;

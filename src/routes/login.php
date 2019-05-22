@@ -10,8 +10,6 @@ return function ($app) {
     if (isset($data['username']) && isset($data['password'])) {
       $user = new User($this->db);
       if($user->login($data['username'], $data['password'])){
-        $_SESSION['loggedIn'] = true;
-        $_SESSION['username'] = $data['username'];
         return $response->withJson(array('loggedIn' => true, 'username' => $data['username']));
       }
     }
