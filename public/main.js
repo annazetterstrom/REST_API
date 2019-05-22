@@ -263,28 +263,28 @@ function enriesTitelAndContent(){
       if(!response.ok){
         console.log("fail");
         main.innerHTML = "";
-        renderView(views.commentError, main);
+        renderView(views.entriesError, main);
         addloginlistener();
         return Error(response.statusText);
       }else{
         console.log("yey");
         nav.innerHTML = "";
-        renderView(views.summarySuccess, nav);
+        renderView(views.entriesSuccess, nav);
         return response.json();
       }
     }).then(data => {
         if(!data.comment){
           main.innerHTML = "";
-          renderView(views.entrySummaryError, main);
+          renderView(views.entriesError, main);
           addloginlistener();
         } else {
           nav.innerHTML = "";
-          renderView(views.summarySuccess, nav);
+          renderView(views.entriesSuccess, nav);
           addLoggedInNavListeners();
           //add nav listeners
           main.innerHTML = "";
-          renderView(views.entrySummeryError, main);
-          renderView(views.comment, main);
+          renderView(views.entriesError, main);
+          renderView(views.entries, main);
         }
         console.log(data);
       }
