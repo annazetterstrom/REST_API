@@ -220,7 +220,7 @@ function summaryEntryListener(){
       if(!response.ok){
         console.log("fail");
         main.innerHTML = "";
-        renderView(views. entrySummeryError, main);
+        renderView(views.entrySummeryError, main);
         addloginlistener();
         return Error(response.statusText);
       }else{
