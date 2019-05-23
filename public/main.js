@@ -85,6 +85,7 @@ function addloginlistener(){
           main.innerHTML = "";
           renderView(views.loginError, main);
           addloginlistener();
+          console.log("laddar om sidan");
         } else {
           nav.innerHTML = "";
           renderView(views.loggedIn, nav);
