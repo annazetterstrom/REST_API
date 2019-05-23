@@ -535,7 +535,7 @@ function getUserEntries(e){
     if(data.length === 0){
       main.innerHTML = "Det finns inga inlägg av den här användaren";
     } else {
-      main.innerHTML = "<h1>Inlägg av... oklart vem det är... fixar sen:p</h1>";
+      main.innerHTML = "<h1>Dina senaste inlägg</h1>";
       data.forEach(entry => {
         main.innerHTML += "<h2 class='entries' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<hr>";
