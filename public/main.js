@@ -478,8 +478,9 @@ function getMyEntries(){
         main.innerHTML = "";
         console.log(data);
         data.forEach(entry => {
-          main.innerHTML += '<h1>' + entry.title + '</h1>' ;
-          main.innerHTML += '<p>' + entry.content + '</p> ' ;
+          main.innerHTML += '<hr>';
+          main.innerHTML += '<h1 class="title">' + entry.title + '</h1>' ;
+          main.innerHTML += '<p class="content">' + entry.content + '</p> ' ;
         });
       }
     }
@@ -502,7 +503,7 @@ function getUsers(){
     if(data.length === 0){
       main.innerHTML = "Det finns inga inlägg";
     } else {
-      main.innerHTML = "<h1>Registrerade användare</h1>";
+      main.innerHTML = "<h1 class='title';>Registrerade användare</h1>";
       data.forEach(user => {
         main.innerHTML += "<p class='users' data-userid='" + user.userID + "'>" + user.username + "</p>";
       });
@@ -544,3 +545,13 @@ function getUserEntries(e){
   });
 }
 
+function updateEntryByID(){
+  fetch('/api/entry/{id}', {
+    method: 'PUT',
+    body: formData
+  })
+  .then(response => response.json())
+  .catch(error => console.error('Error:', error))
+  .then(response => console.log('Success:', JSON.stringify(response)));
+
+}
