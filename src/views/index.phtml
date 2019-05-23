@@ -125,8 +125,16 @@
    <p>🍑Greetings rumpdyrkare! Här kan du kommentera🍑</p>
   </template>
 
+  <template id="commentFormTemplate">
+    <h2>Kommentera inlägget</h2>
+    <form id="commentForm">
+      <input type="text" name="content">
+      <button type="submit">Skicka</button>
+    </form>
+  </template>
+
   <template id="entrySummaryTemplate">
-    <h2>Titel:</h2>
+    <h2 data-templatemark="title">Titel:</h2>
   </template>
 
   <template id="entryTemplate">

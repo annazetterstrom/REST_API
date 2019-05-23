@@ -57,6 +57,10 @@ main {
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+.hidden {
+  display: none;
+}
+
 main{
   background-color: rgba(199, 193, 193, 0.144);
   margin: 10px;

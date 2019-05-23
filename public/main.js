@@ -82,15 +82,11 @@ function addloginlistener(){
           main.innerHTML = "";
           renderView(views.loginError, main);
           addloginlistener();
-          console.log("laddar om sidan");
         } else {
           nav.innerHTML = "";
           renderView(views.loggedIn, nav);
           addLoggedInNavListeners();
-          //add nav listeners
-          main.innerHTML = "";
-          renderView(views.greeting, main);
-          renderView(views.comment, main);
+          getEntries();
         }
         console.log(data);
       }
@@ -385,7 +381,7 @@ function addLoggedOutNavListeners(){
       e.preventDefault();
       console.log("nu är du i hem");
       main.innerHTML = "";
-      renderView(views.greeting, main);
+      getEntries();
     });
   }
   userlistLink.addEventListener('click', (e) => {
@@ -427,12 +423,6 @@ function renderView(view, target){
   });
 }
 
-function renderEntry(view, target, entryData){
-
-  let templateMarkup = document.querySelector(template).innerHTML;
-  
-}
-
 function getEntries(){
   fetch ('/api/entries', {
     method: 'GET'
@@ -448,20 +438,25 @@ function getEntries(){
     if(data.length < 1){
       main.innerHTML = "Det finns inga inlägg";
     } else {
-      main.innerHTML = "";
+      main.innerHTML = "<h1>Senaste inläggen</h1>";
       console.log(data)
       data.forEach(entry => {
         console.log(entry);
-        renderView(views.entrySummary, main);
-      })
+        main.innerHTML += "<h2 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<p class='hidden' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
+      });
+      let entries = document.getElementsByClassName('title');
+      for(let i=0;i<entries.length;i++){
+        entries[i].addEventListener('click', getEntry);
       }
     }
-  ).catch(error => {
+  }).catch(error => {
     console.error(error);
   });
 }
 
 function getMyEntries(){
+  //det kan vara bra om vi döper om den här endpointen här och i entry.php sen
   fetch ('/api/enriesTitelAndContent',{ 
   method: 'GET'
 }).then(response => {
@@ -475,18 +470,31 @@ function getMyEntries(){
     if(data.length === 0){
       main.innerHTML = "Det finns inga inlägg";
     } else {
-        main.innerHTML = "";
-        console.log(data);
-        data.forEach(entry => {
-          main.innerHTML += '<hr>';
-          main.innerHTML += '<h1 class="title">' + entry.title + '</h1>' ;
-          main.innerHTML += '<p class="content">' + entry.content + '</p> ' ;
-        });
+      main.innerHTML = "";
+      console.log(data);
+      data.forEach(entry => {
+        console.log(entry);
+        main.innerHTML += '<hr>';
+        main.innerHTML += "<h1 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
+      });
+      let entries = document.getElementsByClassName('title');
+      for(let i=0;i<entries.length;i++){
+        entries[i].addEventListener('click', getEntry);
       }
     }
-  ).catch(error => {
+  }).catch(error => {
     console.error(error);
   });
+}
+
+function getEntry(e){
+  let id = e.target.dataset.entryid;
+  let title = e.target.innerHTML;
+  let content = document.querySelector("p[data-entryid='" + id + "']").innerHTML;
+  main.innerHTML = '';
+  main.innerHTML += '<h1 class="title">' + title + '</h1>';
+  main.innerHTML += '<p class="content">' + content + '</p> ';
 }
 
 function getUsers(){
@@ -533,14 +541,19 @@ function getUserEntries(e){
   }).then(data => {
     console.log(data);
     if(data.length === 0){
-      main.innerHTML = "Det finns inga inlägg av den här användaren";
+      main.innerHTML = "Det finns inga inlägg av den här användaren.";
     } else {
       main.innerHTML = "<h1>Dina senaste inlägg</h1>";
       data.forEach(entry => {
-        main.innerHTML += "<h2 class='entries' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
-        main.innerHTML += "<hr>";
-        main.innerHTML += "<p>" + entry.content + "</p>";
+        console.log(entry);
+        main.innerHTML += '<hr>';
+        main.innerHTML += "<h1 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
       });
+      let entries = document.getElementsByClassName('title');
+      for(let i=0;i<entries.length;i++){
+        entries[i].addEventListener('click', getEntry);
+      }
     }
   }).catch(error => {
     console.error(error);
