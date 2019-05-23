@@ -29,5 +29,14 @@ return function ($app) {
     $entry = new Entry($this->db);
     return $response->withJson($entry->enriesTitelAndContent($userID));
   });
+
+  $app->post('/api/entry', function ($request, $response) {
+    $data = $request->getParsedBody();
+    $entry = new Entry($this->db);
+    return $response->withJson($entry->postEntry($data['title'], $data['content']));
+  });
+
+
+
 };
 

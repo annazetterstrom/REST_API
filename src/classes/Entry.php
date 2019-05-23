@@ -51,5 +51,17 @@ class Entry extends Mapper {
        
    }
 
+   public function postEntry($title, $content){
+    $statement = $this->db->prepare("INSERT INTO entries (title, content, createdAt, userID) VALUES (:title, :content, :createdAt, :userID)");
+    $statement->execute([
+        ':title'=> $title,
+        ':content'=> $content,
+        'createdAt' => date('Y-m-d H:i:s'),
+        ':userID' => $_SESSION ['userID']
+
+    ]);
+    return array("ok"=>true);
+}
+
 }
  
