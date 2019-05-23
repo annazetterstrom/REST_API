@@ -14,10 +14,6 @@ let views = {
   loggedOut: ['#loggedOutNavTemplate'],
   loggedOutError: ['#logoutErrorTemplate'],
   loggedOutSuccess: ['#logoutSuccessTemplate'],
-  entrySummery: ['#entrySummaryTemplate'],
-
-  entrySummery: ['#entrySummaryTemplate'],
-
   entriesError: ['#entriesErrorTemplate']
 }
 
