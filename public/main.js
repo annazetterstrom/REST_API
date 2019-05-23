@@ -538,6 +538,7 @@ function getUserEntries(e){
       main.innerHTML = "<h1>Inlägg av... oklart vem det är... fixar sen:p</h1>";
       data.forEach(entry => {
         main.innerHTML += "<h2 class='entries' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<hr>";
         main.innerHTML += "<p>" + entry.content + "</p>";
       });
     }
