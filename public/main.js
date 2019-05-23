@@ -1,7 +1,7 @@
 let views = {
   entries: ['#entryTemplate'],
-  entrySummery: ['#entrySummeryTemplate'],
-  entrySummeryError: ['#entrySummeryErrorTemplate'],
+  entrySummary: ['#entrySummaryTemplate'],
+  entrySummaryError: ['#entrySummaryErrorTemplate'],
   entryError: ['#entryErrorTemplate'],
   comment: ['#commentsTemplate'],
   registerSuccess: ['#greetingNewUserTemplate'],
@@ -14,10 +14,6 @@ let views = {
   loggedOut: ['#loggedOutNavTemplate'],
   loggedOutError: ['#logoutErrorTemplate'],
   loggedOutSuccess: ['#logoutSuccessTemplate'],
-  entrySummery: ['#entrySummaryTemplate'],
-
-  entrySummery: ['#entrySummaryTemplate'],
-
   entriesError: ['#entriesErrorTemplate']
 }
 
@@ -48,12 +44,12 @@ if(loggedIn){
   renderView(views.loggedIn, nav);
   renderView(views.greeting, main);
   renderView(views.comment, main); 
-  renderView(views.entrySummery, main);
+  renderView(views.entrySummary, main);
   addLoggedInNavListeners();
 } else {
   renderView(views.loggedOut, nav);
   renderView(views.registerSuccess, main); 
-  renderView(views.entrySummery, main);
+  renderView(views.entrySummary, main);
   getEntries();
   addLoggedOutNavListeners();
 }
@@ -225,7 +221,7 @@ function summaryEntryListener(){
       if(!response.ok){
         console.log("fail");
         main.innerHTML = "";
-        renderView(views.entrySummeryError, main);
+        renderView(views.entrySummaryError, main);
         addloginlistener();
         return Error(response.statusText);
       }else{
@@ -410,7 +406,7 @@ function getEntries(){
       console.log(data)
       data.forEach(entry => {
         console.log(entry);
-        renderView(views.entrySummery, main);
+        renderView(views.entrySummary, main);
       })
       }
     }
@@ -447,7 +443,7 @@ function getUsers(){
     console.error(error);
   });
 }
-
+// alla inläggen
 function getUserEntries(e){
   let userid = e.target.dataset.userid;
   console.log('/api/entries/' + userid);
