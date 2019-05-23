@@ -35,5 +35,13 @@ class Entry extends Mapper {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
    }
 
+   public function deleteEntriesByID($entryID){
+       $statement = $this->db->prepare("DELETE FROM entries WHERE entryID = :entryID");
+       $statement->execute([
+           'entryID' => $entryID
+       ]);
+       
+   }
+
 }
  
