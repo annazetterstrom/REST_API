@@ -33,6 +33,8 @@ class User extends Mapper {
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  
+
   public function login($username, $password) {
     $statement = $this->db->prepare("SELECT * FROM users WHERE username = :username");
     $statement->execute([
