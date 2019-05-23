@@ -25,6 +25,15 @@ class Entry extends Mapper {
        ]);
        return true; 
    }
+   public function getEntriesByUserID($userID){
+    //bra att ha när man ska se en specifik användares entries
+        $statement = $this->db->prepare("SELECT * FROM entries WHERE userID = :userID");
+        $statement->execute([
+            'userID' => $userID
+        ]);
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+   }
 
 }
  

@@ -74,13 +74,12 @@ function addloginlistener(){
         renderView(views.loginError, main);
         addloginlistener();
         return Error(response.statusText);
-      }else{
+      } else{
         console.log("yey");
-        nav.innerHTML = "";
-        renderView(views.loggedIn, nav);
         return response.json();
       }
     }).then(data => {
+        console.log(data);
         if(!data.loggedIn){
           main.innerHTML = "";
           renderView(views.loginError, main);
@@ -329,6 +328,7 @@ function addLoggedInNavListeners(){
   userlistLink.addEventListener('click', (e) => {
     e.preventDefault();
     console.log("nu är du i userlist");
+    getUsers();
   });
 }
 
@@ -349,7 +349,7 @@ function addLoggedOutNavListeners(){
   userlistLink.addEventListener('click', (e) => {
     e.preventDefault();
     console.log("nu är du i userlist");
-    main.innerHTML = "-.-";
+    getUsers();
   });
   registerLink.addEventListener('click', (e) => {
     e.preventDefault();
@@ -415,6 +415,62 @@ function getEntries(){
       }
     }
   ).catch(error => {
+    console.error(error);
+  });
+}
+
+function getUsers(){
+  fetch ('/api/users', {
+    method: 'GET'
+  }).then(response => {
+    if(!response.ok){
+      main.innerHTML = "Verkar ha blivit något fel på serversidan när vi försökte komma åt användarna :/";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
+    if(data.length === 0){
+      main.innerHTML = "Det finns inga inlägg";
+    } else {
+      main.innerHTML = "<h1>Registrerade användare</h1>";
+      data.forEach(user => {
+        main.innerHTML += "<p class='users' data-userid='" + user.userID + "'>" + user.username + "</p>";
+      });
+      let users = document.getElementsByClassName('users');
+      console.log(users.length);
+      for(let i=0;i<users.length;i++){
+        users[i].addEventListener('click', getUserEntries);
+      }
+    }
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+function getUserEntries(e){
+  let userid = e.target.dataset.userid;
+  console.log('/api/entries/' + userid);
+  fetch ('/api/entries/' + userid, {
+    method: 'GET'
+  }).then(response => {
+    if(!response.ok){
+      main.innerHTML = "Verkar ha blivit något fel på serversidan när vi försökte komma åt inläggen :/";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
+    console.log(data);
+    if(data.length === 0){
+      main.innerHTML = "Det finns inga inlägg av den här användaren";
+    } else {
+      main.innerHTML = "<h1>Inlägg av... oklart vem det är... fixar sen:p</h1>";
+      data.forEach(entry => {
+        main.innerHTML += "<p class='entries' data-entryid='" + entry.entryID + "'>" + entry.title + "</p>";
+      });
+    }
+  }).catch(error => {
     console.error(error);
   });
 }
