@@ -2,7 +2,7 @@
 
 class User extends Mapper {
   public function getUserByID($userID) {
-    $statement = $this->db->prepare("SELECT * FROM users WHERE userID = :userID");
+    $statement = $this->db->prepare("SELECT username, userID FROM users WHERE userID = :userID");
     $statement->execute([
       ':userID' => $userID
     ]);
@@ -27,21 +27,8 @@ class User extends Mapper {
     }
   }
   
-  public function updateUserByID($userID, $username, $password) {
-    //lägg till check på username
-    
-    $statement = $this->db->prepare("UPDATE users SET username = :username, password =:password WHERE userID = :userID");
-    $hash = password_hash($password, PASSWORD_BCRYPT);
-    $statement->execute([
-      ':userID' => $userID,
-      'username' => $username,
-      'password' => $hash
-    ]);
-    return true;
-  }
-  
   public function getUsers() {
-    $statement = $this->db->prepare("SELECT * FROM users");
+    $statement = $this->db->prepare("SELECT username, userID FROM users");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -55,7 +42,7 @@ class User extends Mapper {
     if(password_verify($password, $row['password'])){
       $_SESSION['loggedIn'] = true;
       $_SESSION['userID'] = $row['userID'];
-      $_SESSION['username'] = $data['username'];
+      $_SESSION['username'] = $row['username'];
       return true; 
     }else{
       return false;
