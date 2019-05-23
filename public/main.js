@@ -293,7 +293,7 @@ function summaryEntryListener(){
     })
   });
 }
-// Visa allt, Titel och Innehåll, ej sammanfattat
+// Visa allt, Titel och Innehåll, inloggat läge
 
 function enriesTitelAndContent(){
   TitelAndContentForm = document.querySelector('#TitelAndContentTemplate');
@@ -537,7 +537,9 @@ function getUserEntries(e){
     } else {
       main.innerHTML = "<h1>Inlägg av... oklart vem det är... fixar sen:p</h1>";
       data.forEach(entry => {
-        main.innerHTML += "<p class='entries' data-entryid='" + entry.entryID + "'>" + entry.title + "</p>";
+        main.innerHTML += "<h2 class='entries' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<hr>";
+        main.innerHTML += "<p>" + entry.content + "</p>";
       });
     }
   }).catch(error => {
