@@ -253,7 +253,7 @@ function summaryEntryListener(){
 // Visa allt, Titel och Innehåll, ej sammanfattat
 
 function enriesTitelAndContent(){
-  TitelAndContentForm = document.querySelector('#TitelAndContentForm');
+  TitelAndContentForm = document.querySelector('#TitelAndContentTemplate');
   TitelAndContentForm.addEventListener('submit', e => {
     e.preventDefault();
     const formData = new FormData(TitelAndContentForm)
@@ -263,14 +263,12 @@ function enriesTitelAndContent(){
     }).then(response => {
       if(!response.ok){
         console.log("fail");
-        main.innerHTML = "";
-        renderView(views.entriesError, main);
-        addloginlistener();
+        main.innerHTML = "Det blev något fel";
         return Error(response.statusText);
       }else{
         console.log("yey");
-        nav.innerHTML = "";
-        renderView(views.entriesSuccess, nav);
+        main.innerHTML = "";
+        renderView(views.enriesTitelAndContent, main);
         return response.json();
       }
     }).then(data => {
@@ -305,6 +303,7 @@ function addLoggedInNavListeners(){
   myEntriesLink.addEventListener('click', (e) => {
     e.preventDefault();
     console.log("nu är du i myentries");
+    getMyEntries();
   });
   postEntryLink.addEventListener('click', (e) => {
     e.preventDefault();
@@ -408,6 +407,33 @@ function getEntries(){
         console.log(entry);
         renderView(views.entrySummary, main);
       })
+      }
+    }
+  ).catch(error => {
+    console.error(error);
+  });
+}
+
+function getMyEntries(){
+  fetch ('/api/enriesTitelAndContent',{ 
+  method: 'GET'
+}).then(response => {
+    if(!response.ok){
+      main.innerHTML = "fuckups";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
+    if(data.length === 0){
+      main.innerHTML = "Det finns inga inlägg";
+    } else {
+        main.innerHTML = "";
+        console.log(data);
+        data.forEach(entry => {
+          main.innerHTML += '<h1>' + entry.title + '</h1>' ;
+          main.innerHTML += '<p>' + entry.content + '</p> ' ;
+        });
       }
     }
   ).catch(error => {
