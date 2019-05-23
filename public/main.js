@@ -293,7 +293,7 @@ function summaryEntryListener(){
     })
   });
 }
-// Visa allt, Titel och Innehåll, ej sammanfattat
+// Visa allt, Titel och Innehåll, inloggat läge
 
 function enriesTitelAndContent(){
   TitelAndContentForm = document.querySelector('#TitelAndContentTemplate');
