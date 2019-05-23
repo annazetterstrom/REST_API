@@ -29,5 +29,18 @@ return function ($app) {
     $entry = new Entry($this->db);
     return $response->withJson($entry->enriesTitelAndContent($userID));
   });
+
+  $app->delete('/api/entry/{id}', function ($request, $response) {
+    $entryID = $args['id'];
+    $entry = new Entry($this->db);
+    return $response->withJson($entry->deleteEntriesByID($entryID));
+  })->add($auth);
+
+  $app->put('/api/entry/{id}', function ($request, $response) {
+    $data = $request->getParsedBody();
+    $entryID = $args['id'];
+    $entry = new Entry($this->db);
+    return $response->withJson($entry->updateEntryByID($entryID, $data['title'], $data['content']));
+  })->add($auth);
 };
 

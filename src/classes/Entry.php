@@ -23,7 +23,7 @@ class Entry extends Mapper {
            ':content' => $content,
            ':entryID' => $entryID
        ]);
-       return true; 
+       return array('ok' => true); 
    }
    public function getEntriesByUserID($userID){
     //bra att ha när man ska se en specifik användares entries
@@ -48,7 +48,7 @@ class Entry extends Mapper {
        $statement->execute([
            'entryID' => $entryID
        ]);
-       
+       return array('ok' => true); 
    }
 
 }
