@@ -37,9 +37,6 @@ return function ($app) {
     return $response->withJson($entry->postEntry($data['title'], $data['content']));
   });
 
-
-
-
   $app->delete('/api/entry/{id}', function ($request, $response) {
     $entryID = $args['id'];
     $entry = new Entry($this->db);
