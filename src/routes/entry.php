@@ -30,6 +30,16 @@ return function ($app) {
     return $response->withJson($entry->enriesTitelAndContent($userID));
   });
 
+
+  $app->post('/api/entry', function ($request, $response) {
+    $data = $request->getParsedBody();
+    $entry = new Entry($this->db);
+    return $response->withJson($entry->postEntry($data['title'], $data['content']));
+  });
+
+
+
+
   $app->delete('/api/entry/{id}', function ($request, $response) {
     $entryID = $args['id'];
     $entry = new Entry($this->db);
@@ -42,5 +52,6 @@ return function ($app) {
     $entry = new Entry($this->db);
     return $response->withJson($entry->updateEntryByID($entryID, $data['title'], $data['content']));
   })->add($auth);
+
 };
 

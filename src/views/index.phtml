@@ -153,6 +153,31 @@
     <h1>Titel och innehåll</h1>
  </template>
 
+ <template id="CreateNewEntryTemplate">
+ <h2>Skapa inlägg</h2>
+ <form id="newEntryForm">
+  <div class="form-group">
+    <label for="entrytitle">Titel:</label>
+    <input name="title" type="text" class="form-control" id="entrytitle" placeholder="titel">
+  </div>
+  <div class="form-group">
+    <label for="entrycontent">skriv ditt inlägg här</label>
+    <textarea name="content" class="form-control" id="entrycontent" rows="10" placeholder="skriv ditt inlägg här"></textarea>
+  </div>
+  <button class="btn btn-primary">Skicka</button>
+</form>
+ </template>
+
+ <template id="errorNewEntryTamplate">
+    <h1>Inlägget skapades ej🍑</h1>
+ </template>
+
+
+ 
+ 
+
+ 
+
   <div id="nav"></div>
   <div class="container">
   

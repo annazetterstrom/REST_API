@@ -1,4 +1,6 @@
 let views = {
+  newEntry: ['#CreateNewEntryTemplate'],
+  errorNewEntry: ['#CreateNewEntryTemplate', '#errorNewEntryTamplate'],
   entries: ['#entryTemplate'],
   entrySummary: ['#entrySummaryTemplate'],
   entrySummaryError: ['#entrySummaryErrorTemplate'],
@@ -208,6 +210,47 @@ function commentsListener(){
     })
   });
 }
+// skriva ett inlägg
+function writeNewEntrylistener(){
+  newEntryForm = document.querySelector('#newEntryForm');
+  newEntryForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(newEntryForm)
+    fetch ('/api/entry', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if(!response.ok){
+        console.log("fail");
+        main.innerHTML = "";
+        renderView(views.errorNewEntry, main);
+        writeNewEntrylistener();
+        return Error(response.statusText);
+      } else{
+        console.log("yey");
+        return response.json();
+      }
+    }).then(data => {
+        console.log(data);
+        if(!data.ok===true){
+          main.innerHTML = "";
+          renderView(views.errorNewEntry, main);
+          writeNewEntrylistener();
+          console.log("laddar om sidan");
+        } else {
+          main.innerHTML = "det gick bra :)";
+          //renderView(views.greeting, main);
+          //renderView(views.comment, main);
+        }
+        console.log(data);
+      }
+    ).catch(error => {
+        console.error(error);
+    })
+  });
+}
+
+
  // visar summerade inlägg 
 function summaryEntryListener(){
   summaryEntryForm = document.querySelector('#summaryEntryForm');
@@ -308,6 +351,9 @@ function addLoggedInNavListeners(){
   postEntryLink.addEventListener('click', (e) => {
     e.preventDefault();
     console.log("nu är du i postentry");
+    main.innerHTML="";
+    renderView(views.newEntry, main); 
+    writeNewEntrylistener();
   });
   logoutLink.addEventListener('click', (e) => {
     e.preventDefault();
@@ -318,6 +364,7 @@ function addLoggedInNavListeners(){
     homeLink[i].addEventListener('click', (e) => {
       e.preventDefault();
       console.log("nu är du i hem");
+      getEntries();
     });
   }
   userlistLink.addEventListener('click', (e) => {
