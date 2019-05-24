@@ -291,7 +291,7 @@ function summaryEntryListener(){
 }
 // Visa allt, Titel och Innehåll, inloggat läge
 
-function enriesTitelAndContent(){
+function fullEntries(){
   TitelAndContentForm = document.querySelector('#TitelAndContentTemplate');
   TitelAndContentForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -307,7 +307,7 @@ function enriesTitelAndContent(){
       }else{
         console.log("yey");
         main.innerHTML = "";
-        renderView(views.enriesTitelAndContent, main);
+        renderView(views.fullEntries, main);
         return response.json();
       }
     }).then(data => {
@@ -457,7 +457,7 @@ function getEntries(){
 
 function getMyEntries(){
   //det kan vara bra om vi döper om den här endpointen här och i entry.php sen
-  fetch ('/api/enriesTitelAndContent',{ 
+  fetch ('/api/fullEntries',{ 
   method: 'GET'
 }).then(response => {
     if(!response.ok){
