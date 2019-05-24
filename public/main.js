@@ -475,7 +475,7 @@ function getMyEntries(){
       data.forEach(entry => {
         console.log(entry);
         main.innerHTML += '<hr>';
-        main.innerHTML += "<h1 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<h2 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
       });
       let entries = document.getElementsByClassName('title');
