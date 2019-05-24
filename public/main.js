@@ -234,7 +234,7 @@ function writeNewEntrylistener(){
           writeNewEntrylistener();
           console.log("laddar om sidan");
         } else {
-          main.innerHTML = "Inlägget skapades :)";
+          main.innerHTML = "<p class='alert alert-success' role='alert'> Inlägget skapades </p> ";
           //renderView(views.greeting, main);
           //renderView(views.comment, main);
         }
