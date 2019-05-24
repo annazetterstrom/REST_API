@@ -234,7 +234,7 @@ function writeNewEntrylistener(){
           writeNewEntrylistener();
           console.log("laddar om sidan");
         } else {
-          main.innerHTML = "det gick bra :)";
+          main.innerHTML = "Inlägget skapades :)";
           //renderView(views.greeting, main);
           //renderView(views.comment, main);
         }
@@ -461,7 +461,7 @@ function getMyEntries(){
   method: 'GET'
 }).then(response => {
     if(!response.ok){
-      main.innerHTML = "fuckups";
+      main.innerHTML = "Avengers, assemble!";
       return Error(response.statusText);
     }else{
       return response.json();
