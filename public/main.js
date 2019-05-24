@@ -61,7 +61,7 @@ function addloginlistener(){
   loginForm = document.querySelector('#loginForm');
   loginForm.addEventListener('submit', e => {
     e.preventDefault();
-    const formData = new FormData(loginForm)
+    let formData = new FormData(loginForm)
     fetch ('/api/login', {
       method: 'POST',
       body: formData
@@ -515,7 +515,7 @@ function getEntry(e){
         </div>
         <div class='modal-body'>
 
-        <form>
+        <form id='editEntryForm'>
           <div class='form-group'>
             <label for='exampleFormControlInput1'>Titel</label>
             <input type='text' class='form-control' id='exampleFormControlInput1' value='${title}' placeholder='Titel...'>
@@ -539,9 +539,30 @@ function getEntry(e){
   document.getElementById('delete-button').addEventListener('click', deleteEntry);  
 }
 
-function editEntry(){
-  //Anna lägger in manuelt for now
+function editEntry(e){
+  let id = e.target.dataset.entryid; 
+  let k = document.getElementById('editEntryForm');
+  let formData = new FormData(k)
+  fetch ('/api/entry/' + id, {
+    method: 'PUT',
+    body: formData
+  }).then(response => {
+    if(!response.ok){
+      main.innerHTML = "Du måste vara inloggad för att redigera eller radera inlägg";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
+    console.log(data)
+
+  }).catch(error => {
+    console.error(error);
+  });
 }
+
+
+
 
 function deleteEntry(e){
   let id = e.target.dataset.entryid; 
@@ -642,13 +663,3 @@ function templateInserter(templateString, jsonarr){
   });
 }
 
-function updateEntryByID(){
-  fetch('/api/entry/{id}', {
-    method: 'PUT',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(response => console.log('Success:', JSON.stringify(response)))
-  .catch(error => console.error('Error:', error));
-
-}

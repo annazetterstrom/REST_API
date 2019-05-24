@@ -48,7 +48,8 @@ return function ($app) {
     $data = $request->getParsedBody();
     $entryID = $args['id'];
     $entry = new Entry($this->db);
-    return $response->withJson($entry->updateEntryByID($entryID, $data['title'], $data['content']));
+    $entry->updateEntryByID($entryID, $data['title'], $data['content']);
+    return $response->withJson($data);
   })->add($auth);
 
 };
