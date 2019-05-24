@@ -442,8 +442,12 @@ function getEntries(){
       console.log(data)
       data.forEach(entry => {
         console.log(entry);
-        main.innerHTML += "<h2 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<div class='margin'>"
+        main.innerHTML += "<ul class='list-group list-group-flush'>"
+        main.innerHTML += "<h2 class='title list-group-item' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='hidden' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
+        main.innerHTML += "</ul>";
+        main.innerHTML += "</div>";
       });
       let entries = document.getElementsByClassName('title');
       for(let i=0;i<entries.length;i++){
@@ -540,8 +544,9 @@ function editEntry(e){
   let id = e.target.dataset.entryid; 
   let k = document.getElementById('editEntryForm');
   let formData = new FormData(k)
+  console.log(formData)
   fetch ('/api/entry/' + id, {
-    method: 'PUT',
+    method: 'POST',
     body: formData
   }).then(response => {
     if(!response.ok){

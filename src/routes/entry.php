@@ -44,7 +44,7 @@ return function ($app) {
     return $response->withJson(array('ok' => true));
   })->add($auth);
 
-  $app->put('/api/entry/{id}', function ($request, $response, $args) {
+  $app->post('/api/entry/{id}', function ($request, $response, $args) {
     $data = $request->getParsedBody();
     $entryID = $args['id'];
     $entry = new Entry($this->db);
