@@ -495,6 +495,59 @@ function getEntry(e){
   main.innerHTML = '';
   main.innerHTML += '<h1 class="title">' + title + '</h1>';
   main.innerHTML += '<p class="content">' + content + '</p> ';
+  main.innerHTML += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
+  main.innerHTML += '<button class="btn btn-primary" id="edit-button" data-entryid="'+ id + '"> Redigera inlägg </button>';
+  document.getElementById('delete-button').addEventListener('click', deleteEntry); 
+  document.getElementById('edit-button').addEventListener('click', summonModal); 
+
+  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editmodal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+function summonModal(e){
+
+}
+
+function deleteEntry(e){
+  let id = e.target.dataset.entryid; 
+  fetch ('/api/entry/' + id, {
+    method: 'DELETE'
+  }).then(response => {
+    if(!response.ok){
+      main.innerHTML = "Verkar ha blivit något fel på serversidan när vi försökte tabort ditt inlägg:/";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
+    console.log(data.ok)
+
+  }).catch(error => {
+    console.error(error);
+  });
 }
 
 function getUsers(){

@@ -37,13 +37,14 @@ return function ($app) {
     return $response->withJson($entry->postEntry($data['title'], $data['content']));
   });
 
-  $app->delete('/api/entry/{id}', function ($request, $response) {
+  $app->delete('/api/entry/{id}', function ($request, $response, $args) {
     $entryID = $args['id'];
     $entry = new Entry($this->db);
-    return $response->withJson($entry->deleteEntriesByID($entryID));
+    $entry->deleteEntriesByID($entryID);
+    return $response->withJson(array('ok' => true));
   })->add($auth);
 
-  $app->put('/api/entry/{id}', function ($request, $response) {
+  $app->put('/api/entry/{id}', function ($request, $response, $args) {
     $data = $request->getParsedBody();
     $entryID = $args['id'];
     $entry = new Entry($this->db);
