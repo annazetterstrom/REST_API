@@ -520,18 +520,18 @@ function getEntry(e){
         <form id='editEntryForm'>
           <div class='form-group'>
             <label for='exampleFormControlInput1'>Titel</label>
-            <input type='text' class='form-control' id='exampleFormControlInput1' value='${title}' placeholder='Titel...'>
+            <input name='title' type='text' class='form-control' id='exampleFormControlInput1' value='${title}' placeholder='Titel...'>
           </div>
           <input type='hidden' value='${id}'>
           <div class='form-group'>
             <label for='exampleFormControlTextarea1'>Content</label>
-            <textarea class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Content...'>${content}</textarea>
+            <textarea name='content' class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Content...'>${content}</textarea>
           </div>
         </form>
         </div>
         <div class='modal-footer'>
           <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
-          <button type='button'  id='edit-button' class='btn btn-primary'>Save changes</button>
+          <button type='button' data-entryid="${id}"  id='edit-button' class='btn btn-primary'>Save changes</button>
         </div>
       </div>
     </div>
@@ -541,13 +541,18 @@ function getEntry(e){
 }
 
 function editEntry(e){
-  let id = e.target.dataset.entryid; 
-  let k = document.getElementById('editEntryForm');
-  let formData = new FormData(k)
-  console.log(formData)
+  let id = e.target.dataset.entryid;
+  console.log(id)
+  console.log(document.getElementById('editEntryForm'))
+  let formData = new FormData(document.getElementById('editEntryForm'));
+  const object = {};
+  formData.forEach((value, key) => {object[key] = value});
+  const json = JSON.stringify(object);
+  console.log(json)
   fetch ('/api/entry/' + id, {
-    method: 'POST',
-    body: formData
+    method: 'PUT',
+    body: json,
+    headers: {'Content-Type': "application/json"}
   }).then(response => {
     if(!response.ok){
       main.innerHTML = "Du måste vara inloggad för att redigera eller radera inlägg";
