@@ -543,8 +543,9 @@ function editEntry(e){
   let id = e.target.dataset.entryid; 
   let k = document.getElementById('editEntryForm');
   let formData = new FormData(k)
+  console.log(formData)
   fetch ('/api/entry/' + id, {
-    method: 'PUT',
+    method: 'POST',
     body: formData
   }).then(response => {
     if(!response.ok){
