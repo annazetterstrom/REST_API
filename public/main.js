@@ -496,7 +496,6 @@ function getEntry(e){
   main.innerHTML += '<h1 class="title">' + title + '</h1>';
   main.innerHTML += '<p class="content">' + content + '</p> ';
   main.innerHTML += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
-  document.getElementById('delete-button').addEventListener('click', deleteEntry); 
 
   main.innerHTML +=`
   <!-- Button trigger modal -->
@@ -536,11 +535,12 @@ function getEntry(e){
       </div>
     </div>
   </div>`;
-  document.getElementById('edit-button').addEventListener('click', editEntry); 
+  document.getElementById('edit-button').addEventListener('click', editEntry);
+  document.getElementById('delete-button').addEventListener('click', deleteEntry);  
 }
 
 function editEntry(){
-  /Anna lägger in manuelt for now
+  //Anna lägger in manuelt for now
 }
 
 function deleteEntry(e){
@@ -549,7 +549,7 @@ function deleteEntry(e){
     method: 'DELETE'
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "Verkar ha blivit något fel på serversidan när vi försökte tabort ditt inlägg:/";
+      main.innerHTML = "Du måste vara inloggad för att redigera eller radera inlägg";
       return Error(response.statusText);
     }else{
       return response.json();
