@@ -78,3 +78,20 @@ color: brown;
 font-size: 33px;;
 }
 
+
+template>#loggedOutNavTemplate>div>.navbar.navbar-expand-md.navbar-light.bg-light{
+  background-color: rgb(133, 8, 8);
+}
+#nav{
+  
+  background-color: rgb(230, 28, 28);
+}
+
+.navbar.navbar-expand-md.navbar-light.bg-light{
+  background-color: red;
+  color: rebeccapurple;
+}
+div>#header{
+  background-color: red;
+  color: rebeccapurple;
+}

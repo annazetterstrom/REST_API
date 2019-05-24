@@ -35,7 +35,7 @@ class Entry extends Mapper {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
    }
    
-   public function enriesTitelAndContent($userID) {
+   public function fullEntries($userID) {
     $statement = $this->db->prepare("SELECT title, entryID, content FROM entries WHERE userID = :userID");
     $statement->execute([
         ':userID' => $userID

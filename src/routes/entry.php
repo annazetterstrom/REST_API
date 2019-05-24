@@ -24,10 +24,10 @@ return function ($app) {
   });
 
 
-  $app->get('/api/enriesTitelAndContent', function ($request, $response, $args) {
+  $app->get('/api/fullEntries', function ($request, $response, $args) {
     $userID = $_SESSION['userID'];
     $entry = new Entry($this->db);
-    return $response->withJson($entry->enriesTitelAndContent($userID));
+    return $response->withJson($entry->fullEntries($userID));
   });
 
 
