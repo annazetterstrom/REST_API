@@ -496,9 +496,6 @@ function getEntry(e){
   main.innerHTML += '<h1 class="title">' + title + '</h1>';
   main.innerHTML += '<p class="content">' + content + '</p> ';
   main.innerHTML += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
-  main.innerHTML += '<button class="btn btn-primary" id="edit-button" data-entryid="'+ id + '"> Redigera inlägg </button>';
-  document.getElementById('delete-button').addEventListener('click', deleteEntry); 
-  document.getElementById('edit-button').addEventListener('click', summonModal); 
 
   <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editmodal">
@@ -523,12 +520,13 @@ function getEntry(e){
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
-  </div>
-</div>
+  </div>`;
+  document.getElementById('edit-button').addEventListener('click', editEntry);
+  document.getElementById('delete-button').addEventListener('click', deleteEntry);  
 }
 
-function summonModal(e){
-
+function editEntry(){
+  //Anna lägger in manuelt for now
 }
 
 function deleteEntry(e){
@@ -537,7 +535,7 @@ function deleteEntry(e){
     method: 'DELETE'
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "Verkar ha blivit något fel på serversidan när vi försökte tabort ditt inlägg:/";
+      main.innerHTML = "Du måste vara inloggad för att redigera eller radera inlägg";
       return Error(response.statusText);
     }else{
       return response.json();
