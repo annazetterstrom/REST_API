@@ -560,6 +560,23 @@ function getUserEntries(e){
   });
 }
 
+function templateInserter(templateString, jsonarr){
+  let temp = document.querySelector(templateString);
+  jsonarr.forEach(jsonobj => {
+    let items = temp.content.querySelectorAll("*");
+    items.forEach(item => {
+      let a = document.importNode(item, true);
+        let entries = Object.entries(jsonobj);
+        entries.forEach(entry => {
+          if(a.dataset.templatekey === entry[0]){
+              a.textContent = entry[1];
+          }
+        });
+      document.body.appendChild(a);
+    }); 
+  });
+}
+
 function updateEntryByID(){
   fetch('/api/entry/{id}', {
     method: 'PUT',
