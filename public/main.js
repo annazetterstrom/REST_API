@@ -164,48 +164,7 @@ function logout(){
       console.error(error);
   });
 }
- // Visar kommentarer
-function commentsListener(){
-  commentForm = document.querySelector('#commentForm');
-  commentForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const formData = new FormData(commentForm)
-    fetch ('/api/comment', {
-      method: 'POST',
-      body: formData
-    }).then(response => {
-      if(!response.ok){
-        console.log("fail");
-        main.innerHTML = "";
-        renderView(views.commentError, main);
-        addloginlistener();
-        return Error(response.statusText);
-      }else{
-        console.log("yey");
-        nav.innerHTML = "";
-        renderView(views.commentSuccess, nav);
-        return response.json();
-      }
-    }).then(data => {
-        if(!data.comment){
-          main.innerHTML = "";
-          renderView(views.commentError, main);
-          addloginlistener();
-        } else {
-          nav.innerHTML = "";
-          renderView(views.commentSuccess, nav);
-          addLoggedInNavListeners();
-          //add nav listeners
-          main.innerHTML = "";
-          renderView(views.comment, main);
-        }
-        console.log(data);
-      }
-    ).catch(error => {
-        console.error(error);
-    })
-  });
-}
+
 // skriva ett inlägg
 function writeNewEntrylistener(){
   newEntryForm = document.querySelector('#newEntryForm');
@@ -520,31 +479,31 @@ function getEntry(e){
         <form id='editEntryForm'>
           <div class='form-group'>
             <label for='exampleFormControlInput1'>Titel</label>
-            <input type='text' class='form-control' id='exampleFormControlInput1' value='${title}' placeholder='Titel...'>
+            <input name='title' type='text' class='form-control' id='exampleFormControlInput1' value='${title}' placeholder='Titel...'>
           </div>
           <input type='hidden' value='${id}'>
           <div class='form-group'>
             <label for='exampleFormControlTextarea1'>Content</label>
-            <textarea class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Content...'>${content}</textarea>
+            <textarea name='content' class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Content...'>${content}</textarea>
           </div>
         </form>
         </div>
         <div class='modal-footer'>
           <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
-          <button type='button'  id='edit-button' class='btn btn-primary'>Save changes</button>
+          <button type='button' data-entryid="${id}" id='edit-button' class='btn btn-primary'>Save changes</button>
         </div>
       </div>
     </div>
   </div>`;
   document.getElementById('edit-button').addEventListener('click', editEntry);
-  document.getElementById('delete-button').addEventListener('click', deleteEntry);  
+  document.getElementById('delete-button').addEventListener('click', deleteEntry);
+  getComments(id);
 }
 
 function editEntry(e){
   let id = e.target.dataset.entryid; 
   let k = document.getElementById('editEntryForm');
-  let formData = new FormData(k)
-  console.log(formData)
+  let formData = new FormData(k);
   fetch ('/api/entry/' + id, {
     method: 'POST',
     body: formData
@@ -563,9 +522,6 @@ function editEntry(e){
   });
 }
 
-
-
-
 function deleteEntry(e){
   let id = e.target.dataset.entryid; 
   fetch ('/api/entry/' + id, {
@@ -582,6 +538,70 @@ function deleteEntry(e){
 
   }).catch(error => {
     console.error(error);
+  });
+}
+
+function getComments(id){
+  console.log('/api/comments/' + id)
+  fetch ('/api/comments/' + id, {
+    method: 'GET'
+  }).then(response => {
+    if(!response.ok){
+      main.innerHTML = "fuckups på serversidan";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
+    if(data.length === 0){
+      main.innerHTML += "ingen har kommenterat det här inlägget vad jag vet";
+    }
+    data.forEach(comment => {
+      console.log(comment);
+      main.innerHTML += "<div>";
+      main.innerHTML += "<p>" + comment.content + "</p>";
+      main.innerHTML += "<p>Skapad av id: " + comment.createdBy + "</p>";
+      main.innerHTML += "<small>" + comment.createdAt + "</small>";
+      main.innerHTML += "</div>";
+    });
+    main.innerHTML += `
+      <form id="commentForm">
+        <textarea name="content" placeholder="skriv en kommentar..."></textarea>
+        <input type="hidden" value="${id}" name="entryID">
+        <button>Skicka</button>
+      </form>
+    `;
+    addCommentFormListener();
+
+  }).catch(error => {
+    console.error(error);
+  });
+
+}
+
+function addCommentFormListener(e){
+  commentForm = document.querySelector('#commentForm');
+  commentForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(commentForm);
+    fetch ('/api/comment', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if(!response.ok){
+        console.log("fail");
+        main.innerHTML += "Något gick fel och kommentaren sparades inte :/";
+        return Error(response.statusText);
+      }else{
+        console.log("yey");
+        return response.json();
+      }
+    }).then(data => {
+        console.log(data);
+      }
+    ).catch(error => {
+        console.error(error);
+    });
   });
 }
 

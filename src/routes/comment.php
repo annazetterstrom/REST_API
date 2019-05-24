@@ -5,7 +5,7 @@ return function ($app) {
   $auth = require __DIR__ . '/../middlewares/auth.php';
 
   // Basic protected GET route 
-  $app->get('api/comment/{id}', function ($request, $response, $args) {
+  $app->get('/api/comment/{id}', function ($request, $response, $args) {
     $commentID = $args['id'];
     $comment = new Comment($this->db);
 
@@ -13,9 +13,21 @@ return function ($app) {
   })->add($auth);
 
   // Basic protected GET route 
-  $app->get('/comments', function ($request, $response, $args) {
+  $app->get('/api/comments', function ($request, $response, $args) {
     $comment = new Comment($this->db);
     return $response->withJson($comment->getComments());
+  });
+
+  $app->get('/api/comments/{entryid}', function ($request, $response, $args) {
+    $entryID = $args['entryid'];
+    $comment = new Comment($this->db);
+    return $response->withJson($comment->getCommentsByEntryID($entryID));
+  });
+
+  $app->post('/api/comment', function ($request, $response) {
+    $data = $request->getParsedBody();
+    $comment = new Comment($this->db);
+    return $response->withJson($comment->postComment($data['content'], $data['entryID']));
   });
 
   
