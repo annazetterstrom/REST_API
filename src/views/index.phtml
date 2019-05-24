@@ -43,19 +43,29 @@
   </template> 
 
   <template id="loginErrorTemplate">
-    <p class="error">Något blev fel med inloggningen</p>
+  <div class="alert alert-danger" role="alert">
+    Något blev fel med inloggningen
+    </div>
   </template>
 
   <template id="registerErrorTemplate">
-    <p class="error">Något blev fel med registreringen</p>
+    <div class="alert alert-danger" role="alert">
+    Användarnamnet finns redan
+    </div>
   </template>
+
+ 
   
   <template id="logoutErrorTemplate">
-    <p class="error">Något blev fel med utloggningen</p>
+  <div class="alert alert-danger" role="alert">
+    Något blev fel med utloggningen
+    </div>
   </template>
   
   <template id="logoutSuccessTemplate">
-    <p class="error">Du är utloggad</p>
+  <div class="alert alert-info" role="alert">
+    Du är utloggad
+</div>
   </template>
 
   <template id="loggedInNavTemplate">
@@ -143,16 +153,22 @@
   </template>
 
   <template id="entryErrorTemplate">
-    <p>Inläggen går ej att visa</p>
+  <div class="alert alert-danger" role="alert">
+   Inläggen går ej att visa
+</div>
   </template>
 
   <template id="entrySummaryErrorTemplate">
-    <p>Summerade inlägget går ej att visa</p>
+  <div class="alert alert-danger" role="alert">
+  Summerade inlägget går ej att visa
+</div>
   </template>
 
 
  <template id="entriesErrorTemplate">
-    <h1>Det finns inga inlägg ännu</h1>
+ <div class="alert alert-danger" role="alert">
+  Det finns inga inlägg här
+</div>
  </template>
 
  <!-- Titel och content ska läggas här -->
@@ -176,7 +192,9 @@
  </template>
 
  <template id="errorNewEntryTamplate">
-    <h1>Inlägget skapades ej</h1>
+ <div class="alert alert-danger" role="alert">
+  Inlägget skapades ej
+</div>
  </template>
 
  
