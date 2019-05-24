@@ -5,10 +5,12 @@ body {
   margin-bottom: 80px;
 }
 header>h1{
-  padding: 20px;
+  padding: 10px;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: 3em;
+  font-size: 4em;
   color: brown;
+  margin-top: 40px;
+  text-decoration-line: none;
 }
 
 #logout-btn{
@@ -16,7 +18,7 @@ header>h1{
 }
 
 .container{
-  border: 10px solid rgba(0, 0, 0, 0.521); 
+  border: 10px solid rgba(165, 42, 42, 0.541); 
   max-width: 1000px;
   margin: 100px auto 0 auto;
   border-top-style: double;
@@ -27,6 +29,11 @@ header>h1{
 
 h1 {
   color: #e74c3c;
+  color: rgb(50, 50, 50);
+  margin-bottom: 60px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: center;
+  text-decoration-line: underline;
 }
 
 header{
@@ -74,24 +81,30 @@ main{
   margin-left: 10px;
 }
 #btn-journal:hover{
-color: brown;
-font-size: 33px;;
+  color: brown;
+  font-size: 33px;;
 }
 
-
-template>#loggedOutNavTemplate>div>.navbar.navbar-expand-md.navbar-light.bg-light{
-  background-color: rgb(133, 8, 8);
-}
-#nav{
-  
-  background-color: rgb(230, 28, 28);
+.registerLogin{
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 40px;
+  padding: 20px;
+  text-align: center;
 }
 
-.navbar.navbar-expand-md.navbar-light.bg-light{
-  background-color: red;
-  color: rebeccapurple;
+#loginForm{
+  padding: 20px;
+  text-align: center;
 }
-div>#header{
-  background-color: red;
-  color: rebeccapurple;
+#registerForm{
+  padding: 20px;
+  text-align: center;
 }
+.button{
+  border-radius: 10px;
+  width: 20%;
+}
+.button:hover{
+  background-color:rgba(165, 42, 42, 0.137);
+}
+
