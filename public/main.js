@@ -234,7 +234,7 @@ function writeNewEntrylistener(){
           writeNewEntrylistener();
           console.log("laddar om sidan");
         } else {
-          main.innerHTML = "Inlägget skapades :)";
+          main.innerHTML = "<p class='alert alert-success' role='alert'> Inlägget skapades </p> ";
           //renderView(views.greeting, main);
           //renderView(views.comment, main);
         }
@@ -475,7 +475,7 @@ function getMyEntries(){
       data.forEach(entry => {
         console.log(entry);
         main.innerHTML += '<hr>';
-        main.innerHTML += "<h1 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<h2 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
       });
       let entries = document.getElementsByClassName('title');

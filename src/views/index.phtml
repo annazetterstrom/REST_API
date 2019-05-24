@@ -7,7 +7,8 @@
   <title><?=$title?></title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -19,28 +20,28 @@
     }
   ?>
   <template id="loginFormTemplate">
-    <h2>Logga in</h2>
+    <h2 class="registerLogin">Logga in</h2>
     <form id="loginForm">
-      <label for="username">Användarnamn:</label>
+      <label for="username">Användarnamn:</label> <br>
       <input type="text" name="username" id="username">
 <br>  
-      <label for="password">Lösenord:</label>
+      <label for="password">Lösenord:</label> <br>
       <input type="password" name="password" id="password">
 <br> <br>
-      <button type="submit">Logga in</button>
+      <button type="submit" class="button">Logga in</button>
     </form>
   </template>
 
   <template id="registerFormTemplate">
-    <h2>Registrera en ny användare</h2>
+    <h2 class="registerLogin">Registrera en ny användare</h2>
     <form id="registerForm">
-      <label for="username">Användarnamn:</label>
+      <label for="username">Användarnamn:</label> <br>
       <input type="text" name="username" id="username">
 <br>
-      <label for="password">Lösenord:</label>
+      <label for="password">Lösenord:</label> <br>
       <input type="password" name="password" id="password">
 <br> <br>
-      <button type="submit">Registrera</button>
+      <button type="submit" class="button">Registrera</button>
     </form>
   </template> 
 
@@ -129,8 +130,9 @@
   </template>
 
   <template id="greetingNewUserTemplate">
-    <h2>Välkommen till Assbook</h2>
-    <p>🍑Greetings nya Användare! Här dyrkar vi rumpor🍑</p>
+    <h2 class="welcome">Välkommen!</h2>
+    <h3 class="loginNext">Logga in med dina nya användaruppgifter</h3>
+    <p class="alert alert-success" role="alert">Användaren har nu skapats</p>
   </template>
 
   <template id="commentsTemplate">
