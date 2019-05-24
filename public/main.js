@@ -497,12 +497,11 @@ function getEntry(e){
   main.innerHTML += '<p class="content">' + content + '</p> ';
   main.innerHTML += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
 
-  main.innerHTML += `
+  main.innerHTML +=`
   <!-- Button trigger modal -->
   <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#editmodal'>
     Redigera
   </button>
-
   <!-- Modal -->
   <div class='modal fade' id='editmodal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
     <div class='modal-dialog' role='document'>
@@ -514,7 +513,6 @@ function getEntry(e){
           </button>
         </div>
         <div class='modal-body'>
-
         <form id='editEntryForm'>
           <div class='form-group'>
             <label for='exampleFormControlInput1'>Titel</label>
@@ -526,7 +524,6 @@ function getEntry(e){
             <textarea class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Content...'>${content}</textarea>
           </div>
         </form>
-
         </div>
         <div class='modal-footer'>
           <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
@@ -662,4 +659,3 @@ function templateInserter(templateString, jsonarr){
     }); 
   });
 }
-
