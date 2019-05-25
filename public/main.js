@@ -503,6 +503,9 @@ function getEntry(id, title, content){
       </div>
     </div>
   </div>`;
+  main.innerHTML += ` <button class="btn btn-outline-secondary like-review">
+  <i class="fa fa-heart" aria-hidden="true"></i> Like
+</button>`;
   getComments(id);
 }
 
