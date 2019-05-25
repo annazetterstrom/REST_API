@@ -559,7 +559,7 @@ function getComments(id){
       console.log(comment);
       main.innerHTML += "<div>";
       main.innerHTML += "<p>" + comment.content + "</p>";
-      main.innerHTML += "<p>Skapad av id: " + comment.createdBy + "</p>";
+      main.innerHTML += "<p>Skriven av: " + comment.username + "</p>";
       main.innerHTML += "<small>" + comment.createdAt + "</small>";
       main.innerHTML += "</div>";
     });

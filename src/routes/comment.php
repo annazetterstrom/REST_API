@@ -12,12 +12,6 @@ return function ($app) {
     return $response->withJson($comment->getCommentByID($commentID));
   })->add($auth);
 
-  // Basic protected GET route 
-  $app->get('/api/comments', function ($request, $response, $args) {
-    $comment = new Comment($this->db);
-    return $response->withJson($comment->getComments());
-  });
-
   $app->get('/api/comments/{entryid}', function ($request, $response, $args) {
     $entryID = $args['entryid'];
     $comment = new Comment($this->db);
