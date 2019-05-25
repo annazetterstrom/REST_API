@@ -27,7 +27,7 @@ header>h1{
   border-left-style: solid;
 }
 
-h1 {
+h1,h2 {
   color: #e74c3c;
   color: rgb(50, 50, 50);
   margin-bottom: 60px;
@@ -97,7 +97,7 @@ main{
 }
 
 .registerLogin{
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 40px;
   padding: 20px;
   text-align: center;
