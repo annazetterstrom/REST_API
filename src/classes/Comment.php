@@ -32,6 +32,7 @@ class Comment extends Mapper {
    }
 
    public function postComment($content, $entryID){
+    date_default_timezone_set('Europe/Oslo');
     $statement = $this->db->prepare("INSERT INTO comments (entryID, content, createdBy, createdAt) VALUES (:entryID, :content, :createdBy, :createdAt)");
     $statement->execute([
         ':entryID'=> $entryID,
