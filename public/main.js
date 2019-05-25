@@ -397,7 +397,7 @@ function getEntries(){
     if(data.length < 1){
       main.innerHTML = "<p class='alert alert-primary' role='alert'> Det finns inga inlägg </p>";
     } else {
-      main.innerHTML = "<h1>Senaste inläggen</h1>";
+      main.innerHTML = "<h1 class='title'>Senaste inläggen</h1>";
       console.log(data)
       data.forEach(entry => {
         console.log(entry);
@@ -508,7 +508,7 @@ function editEntry(e){
     body: formData
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "Du måste vara inloggad för att redigera eller radera inlägg";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Du måste vara inloggad för att redigera eller radera inlägg </p>";
       return Error(response.statusText);
     }else{
       return response.json();
@@ -527,7 +527,7 @@ function deleteEntry(e){
     method: 'DELETE'
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "Du måste vara inloggad för att redigera eller radera inlägg";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Du måste vara inloggad för att redigera eller radera inlägg </p>";
       return Error(response.statusText);
     }else{
       return response.json();
