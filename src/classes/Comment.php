@@ -38,7 +38,6 @@ class Comment extends Mapper {
         ':content'=> $content,
         'createdBy' => $_SESSION['userID'],
         'createdAt' => date('Y-m-d H:i:s')
-
     ]);
     return array("ok"=>true);
    }

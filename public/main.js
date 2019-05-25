@@ -495,12 +495,11 @@ function getEntry(e){
       </div>
     </div>
   </div>`;
-  document.getElementById('edit-button').addEventListener('click', editEntry);
-  document.getElementById('delete-button').addEventListener('click', deleteEntry);
   getComments(id);
 }
 
 function editEntry(e){
+  console.log("hello");
   let id = e.target.dataset.entryid; 
   let k = document.getElementById('editEntryForm');
   let formData = new FormData(k);
@@ -580,7 +579,13 @@ function getComments(id){
 }
 
 function addCommentFormListener(e){
+  console.log("hello commentformlistener");
   commentForm = document.querySelector('#commentForm');
+  
+  let editbtn = document.getElementById('edit-button');
+  let deletebtn = document.getElementById('delete-button');
+  editbtn.addEventListener('click', editEntry);
+  deletebtn.addEventListener('click', deleteEntry);
   commentForm.addEventListener('submit', e => {
     e.preventDefault();
     const formData = new FormData(commentForm);
