@@ -23,6 +23,13 @@ return function ($app) {
     return $response->withJson($entry->getEntriesByUserID($userID));
   });
 
+  $app->get('/api/20entries/{num}', function ($request, $response, $args) {
+    $num = $args['num'];
+    $entry = new Entry($this->db);
+    //$num = 1 ger entries 1-20, $num = 2 ger entries 21-40 osv
+    return $response->withJson($entry->get20Entries($num));
+  });
+
 
   $app->get('/api/fullEntries', function ($request, $response, $args) {
     $userID = $_SESSION['userID'];

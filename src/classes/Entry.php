@@ -16,6 +16,17 @@ class Entry extends Mapper {
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    //TROR ATT DETTA FUNKAR MEN HAR INTE TESTAT
+    //BEHÖVER FIXA FÖR ÄLDSTA INLÄGGEN (COUNT) ANNARS OK
+    public function get20Entries($num){
+        $modifiednum = $num*20;
+        $statement = $this->db->prepare("SELECT * FROM (SELECT * FROM (SELECT * FROM entries ORDER BY createdAt DESC LIMIT :modifiednum) AS test ORDER BY createdAt ASC LIMIT 20) AS testa ORDER BY createdAt DESC");
+        
+        $statement->bindParam(':modifiednum', $modifiednum, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
    public function updateEntryByID($entryID, $title, $content){
        $statement = $this->db->prepare("UPDATE entries SET title=:title, content=:content WHERE entryID = :entryID");
        $statement->execute([
