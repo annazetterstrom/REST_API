@@ -395,7 +395,7 @@ function getEntries(){
     }
   }).then(data => {
     if(data.length < 1){
-      main.innerHTML = "Det finns inga inlägg";
+      main.innerHTML = "<p class='alert alert-primary' role='alert'> Det finns inga inlägg </p>";
     } else {
       main.innerHTML = "<h1>Senaste inläggen</h1>";
       console.log(data)
@@ -553,7 +553,7 @@ function getComments(id){
     }
   }).then(data => {
     if(data.length === 0){
-      main.innerHTML += "ingen har kommenterat det här inlägget vad jag vet";
+      main.innerHTML += "<p class='alert alert-info' role='alert'> Det finns inga kommentarer till detta inlägg </p>";;
     }
     data.forEach(comment => {
       console.log(comment);
@@ -654,7 +654,7 @@ function getUserEntries(e){
   }).then(data => {
     console.log(data);
     if(data.length === 0){
-      main.innerHTML = "Det finns inga inlägg av den här användaren.";
+      main.innerHTML = " <p class='alert alert-info' role='alert'> Det finns inga inlägg av den här användaren. </p>";
     } else {
       main.innerHTML = "<h1>Dina senaste inlägg</h1>";
       data.forEach(entry => {
