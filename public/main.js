@@ -397,7 +397,7 @@ function getEntries(){
     if(data.length < 1){
       main.innerHTML = "<p class='alert alert-primary' role='alert'> Det finns inga inlägg </p>";
     } else {
-      main.innerHTML = "<h1>Senaste inläggen</h1>";
+      main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
       console.log(data)
       data.forEach(entry => {
         console.log(entry);
@@ -516,7 +516,7 @@ function editEntry(e){
     body: formData
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "Du måste vara inloggad för att redigera eller radera inlägg";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Du måste vara inloggad för att redigera eller radera inlägg </p>";
       return Error(response.statusText);
     }else{
       return response.json();
@@ -536,7 +536,7 @@ function deleteEntry(e){
     method: 'DELETE'
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "Du måste vara inloggad för att redigera eller radera inlägg";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Du måste vara inloggad för att redigera eller radera inlägg </p>";
       return Error(response.statusText);
     }else{
       return response.json();
@@ -570,7 +570,7 @@ function getComments(id){
       console.log(comment);
       main.innerHTML += "<div>";
       main.innerHTML += "<p>" + comment.content + "</p>";
-      main.innerHTML += "<p>Skapad av id: " + comment.createdBy + "</p>";
+      main.innerHTML += "<p>Skriven av: " + comment.username + "</p>";
       main.innerHTML += "<small>" + comment.createdAt + "</small>";
       main.innerHTML += "</div>";
     });
@@ -636,7 +636,7 @@ function getUsers(){
     if(data.length === 0){
       main.innerHTML = "Det finns inga inlägg";
     } else {
-      main.innerHTML = "<h1 class='title';>Registrerade användare</h1>";
+      main.innerHTML = "<h2 class='title';>Registrerade användare</h2>";
       data.forEach(user => {
         main.innerHTML += "<p class='users' data-userid='" + user.userID + "'>" + user.username + "</p>";
       });

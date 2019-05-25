@@ -24,14 +24,15 @@ class Comment extends Mapper {
     }
     
    public function getCommentsByEntryID($entryID){
-        $statement = $this->db->prepare("SELECT * FROM comments WHERE entryID = :entryID");
-        $statement->execute([
-            'entryID' => $entryID
-        ]);
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    $statement = $this->db->prepare("SELECT * FROM comments INNER JOIN users ON comments.createdBy = users.userID WHERE entryID = :entryID ORDER BY createdAt ASC");
+    $statement->execute([
+        ":entryID" => $entryID
+    ]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
    }
 
    public function postComment($content, $entryID){
+    date_default_timezone_set('Europe/Oslo');
     $statement = $this->db->prepare("INSERT INTO comments (entryID, content, createdBy, createdAt) VALUES (:entryID, :content, :createdBy, :createdAt)");
     $statement->execute([
         ':entryID'=> $entryID,
