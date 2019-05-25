@@ -23,7 +23,11 @@ class Entry extends Mapper {
            ':content' => $content,
            ':entryID' => $entryID
        ]);
-       return array('ok' => true); 
+       $statement = $this->db->prepare("SELECT * FROM entries WHERE entryID = :entryID");
+       $statement->execute([
+           ':entryID' => $entryID
+       ]);
+       return $statement->fetch(PDO::FETCH_ASSOC);
    }
    public function getEntriesByUserID($userID){
     //bra att ha när man ska se en specifik användares entries

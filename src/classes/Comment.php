@@ -39,7 +39,12 @@ class Comment extends Mapper {
         'createdBy' => $_SESSION['userID'],
         'createdAt' => date('Y-m-d H:i:s')
     ]);
-    return array("ok"=>true);
+    
+    $statement = $this->db->prepare("SELECT * FROM entries WHERE entryID = :entryID");
+    $statement->execute([
+        ':entryID' => $entryID 
+    ]);
+    return $statement->fetch(PDO::FETCH_ASSOC);
    }
 
     

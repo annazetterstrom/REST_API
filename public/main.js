@@ -410,7 +410,7 @@ function getEntries(){
       });
       let entries = document.getElementsByClassName('title');
       for(let i=0;i<entries.length;i++){
-        entries[i].addEventListener('click', getEntry);
+        entries[i].addEventListener('click', getEntryfromListener);
       }
     }
   }).catch(error => {
@@ -443,7 +443,7 @@ function getMyEntries(){
       });
       let entries = document.getElementsByClassName('title');
       for(let i=0;i<entries.length;i++){
-        entries[i].addEventListener('click', getEntry);
+        entries[i].addEventListener('click', getEntryfromListener);
       }
     }
   }).catch(error => {
@@ -451,10 +451,18 @@ function getMyEntries(){
   });
 }
 
-function getEntry(e){
+function getEntryfromListener(e){
   let id = e.target.dataset.entryid;
   let title = e.target.innerHTML;
   let content = document.querySelector("p[data-entryid='" + id + "']").innerHTML;
+  getEntry(id, title, content);
+}
+
+function getEntry(id, title, content){
+  let modaldarkness = document.getElementsByClassName('modal-backdrop')[0];
+  if(modaldarkness){
+    modaldarkness.remove();
+  }
   main.innerHTML = '';
   main.innerHTML += '<h1 class="title">' + title + '</h1>';
   main.innerHTML += '<p class="content">' + content + '</p> ';
@@ -514,7 +522,8 @@ function editEntry(e){
       return response.json();
     }
   }).then(data => {
-    console.log(data)
+    console.log(data);
+    getEntry(data.entryID, data.title, data.content);
 
   }).catch(error => {
     console.error(error);
@@ -533,7 +542,9 @@ function deleteEntry(e){
       return response.json();
     }
   }).then(data => {
-    console.log(data.ok)
+    console.log(data.ok);
+    main.innerHTML = "";
+    getEntries();
 
   }).catch(error => {
     console.error(error);
@@ -553,7 +564,7 @@ function getComments(id){
     }
   }).then(data => {
     if(data.length === 0){
-      main.innerHTML += "<p class='alert alert-info' role='alert'> Det finns inga kommentarer till detta inlägg </p>";;
+      main.innerHTML += "<p class='alert alert-info' role='alert'> Det finns inga kommentarer till detta inlägg </p>";
     }
     data.forEach(comment => {
       console.log(comment);
@@ -603,6 +614,7 @@ function addCommentFormListener(e){
       }
     }).then(data => {
         console.log(data);
+        getEntry(data.entryID, data.title, data.content);
       }
     ).catch(error => {
         console.error(error);
@@ -665,7 +677,7 @@ function getUserEntries(e){
       });
       let entries = document.getElementsByClassName('title');
       for(let i=0;i<entries.length;i++){
-        entries[i].addEventListener('click', getEntry);
+        entries[i].addEventListener('click', getEntryfromListener);
       }
     }
   }).catch(error => {
