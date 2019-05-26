@@ -635,9 +635,9 @@ function getComments(id){
     if(loggedIn){
       main.innerHTML += `
         <form id="commentForm">
-          <textarea name="content" placeholder="skriv en kommentar..."></textarea>
+          <textarea class="textarea" name="content" placeholder="Skriv en kommentar..."></textarea> <br>
           <input type="hidden" value="${id}" name="entryID">
-          <button>Skicka</button>
+          <button class="send-button">Skicka</button>
         </form>
       `;
       addCommentFormListener();

@@ -18,7 +18,7 @@ header>h1{
 }
 
 .container{
-  border: 10px solid rgba(165, 42, 42, 0.541); 
+  border: 10px solid rgba(41, 40, 40, 0.541); 
   max-width: 1000px;
   margin: 100px auto 0 auto;
   border-top-style: double;
@@ -126,5 +126,48 @@ main{
 }
 
 .margin{
-margin: 20px;
+  margin: 20px;
+}
+
+h2.title.list-group-item{
+  border: 2px groove rgba(0, 0, 0, 0.541); 
+  -webkit-animation: mymove 10s infinite; /* Chrome, Safari, Opera */
+  animation: mymove 10s infinite;
+}
+
+@-webkit-keyframes mymove {
+  from {  background-color: rgb(243, 227, 227);}
+  to {background-color: rgb(212, 202, 236);}
+}
+@keyframes mymove {
+  from {background-color: rgb(243, 227, 227);}
+  to {background-color: rgb(217, 204, 247);}
+}
+
+h2.title.list-group-item:hover{
+  background-color: rgb(226, 208, 208);
+  /* height: 67px; */
+  font-size: 33px;
+}
+.users{
+  font-size: 30px;
+  margin:20px;
+  margin-left: 40px;
+}
+
+button.btn.btn-danger.deletecomment{
+  margin: 10px;
+}
+button.btn.btn-primary.editcomment{
+  margin-left: 20px;
+}
+
+button.send-button{
+  border: 2px solid #4CAF50;
+  border-radius: 5px;
+  font-family: serif;
+}
+
+textarea.textarea{
+  height: 100px;
 }
