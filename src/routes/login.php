@@ -29,6 +29,11 @@ return function ($app) {
 
   $app->get('/api/logout', function ($request, $response) {  
     session_unset();
+    session_destroy();
+    if (session_status() == PHP_SESSION_NONE) {
+      session_set_cookie_params(3600*24*365*10); //session-cookien varar i 10 år.
+      session_start();
+    }
     return $response->withJson(array('loggedOut' => true));
   });
 

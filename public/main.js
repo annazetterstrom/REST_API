@@ -78,6 +78,7 @@ function addloginlistener(){
           renderView(views.loginError, main);
           addloginlistener();
         } else {
+          loggedIn = true;
           nav.innerHTML = "";
           renderView(views.loggedIn, nav);
           addLoggedInNavListeners();
@@ -144,6 +145,7 @@ function logout(){
   }).then(data => {
       console.log(data);
       if(data.loggedOut){
+        loggedIn = false;
         nav.innerHTML = "";
         renderView(views.loggedOut, nav);
         addLoggedOutNavListeners();
@@ -452,52 +454,55 @@ function getEntryfromListener(e){
 function getEntry(id, title, content){
   let modaldarkness = document.getElementsByClassName('modal-backdrop')[0];
   if(modaldarkness){
+    document.body.classList.remove('modal-open');
     modaldarkness.remove();
   }
   let str = "";
   str += '<h1 class="title">' + title + '</h1>';
   str += '<p class="content">' + content + '</p> ';
-  str += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
-  main.innerHTML = str;
+  if(loggedIn){
+    str += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
+    main.innerHTML = str;
 
-  main.innerHTML +=`
-  <!-- Button trigger modal -->
-  <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#editmodal'>
-    Redigera
-  </button>
-  <!-- Modal -->
-  <div class='modal fade' id='editmodal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-    <div class='modal-dialog' role='document'>
-      <div class='modal-content'>
-        <div class='modal-header'>
-          <h5 class='modal-title' id='exampleModalLabel'>Redigera inlägg</h5>
-          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-            <span aria-hidden='true'>&times;</span>
-          </button>
-        </div>
-        <div class='modal-body'>
-        <form id='editEntryForm'>
-          <div class='form-group'>
-            <label for='exampleFormControlInput1'>Titel</label>
-            <input name='title' type='text' class='form-control' id='exampleFormControlInput1' value='${title}' placeholder='Titel...'>
+    main.innerHTML +=`
+    <!-- Button trigger modal -->
+    <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#editmodal'>
+      Redigera
+    </button>
+    <!-- Modal -->
+    <div class='modal fade' id='editmodal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+      <div class='modal-dialog' role='document'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <h5 class='modal-title' id='exampleModalLabel'>Redigera inlägg</h5>
+            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+              <span aria-hidden='true'>&times;</span>
+            </button>
           </div>
-          <input type='hidden' value='${id}'>
-          <div class='form-group'>
-            <label for='exampleFormControlTextarea1'>Content</label>
-            <textarea name='content' class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Content...'>${content}</textarea>
+          <div class='modal-body'>
+          <form id='editEntryForm'>
+            <div class='form-group'>
+              <label for='exampleFormControlInput1'>Titel</label>
+              <input name='title' type='text' class='form-control' id='exampleFormControlInput1' value='${title}' placeholder='Titel...'>
+            </div>
+            <input type='hidden' value='${id}'>
+            <div class='form-group'>
+              <label for='exampleFormControlTextarea1'>Content</label>
+              <textarea name='content' class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Content...'>${content}</textarea>
+            </div>
+          </form>
           </div>
-        </form>
-        </div>
-        <div class='modal-footer'>
-          <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
-          <button type='button' data-entryid="${id}" id='edit-button' class='btn btn-primary'>Save changes</button>
+          <div class='modal-footer'>
+            <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+            <button type='button' data-entryid="${id}" id='edit-button' class='btn btn-primary'>Save changes</button>
+          </div>
         </div>
       </div>
-    </div>
-  </div>`;
-  main.innerHTML += ` <button class="btn btn-outline-secondary like-review">
-  <i class="fa fa-heart" aria-hidden="true"></i> Like
-</button>`;
+    </div>`;
+    main.innerHTML += ` <button class="btn btn-outline-secondary like-review"><i class="fa fa-heart" aria-hidden="true"></i> Like</button>`;
+  } else {
+    main.innerHTML = str;
+  }
   getComments(id);
 }
 
@@ -541,7 +546,6 @@ function editComment(e){
       return response.json();
     }
   }).then(data => {
-    console.log(data);
     getEntry(data.entryID, data.title, data.content);
 
   }).catch(error => {
@@ -553,7 +557,6 @@ function deleteComment(e){
   e.preventDefault();
   console.log("hello delete comment");
   let id = e.target.dataset.commentid;
-  console.log('/api/comment/' + id);
   fetch ('/api/comment/' + id, {
     method: 'DELETE'
   }).then(response => {
@@ -564,7 +567,6 @@ function deleteComment(e){
       return response.json();
     }
   }).then(data => {
-    console.log(data);
     main.innerHTML = "";
     getEntry(data.entryID, data.title, data.content);
 
@@ -585,7 +587,6 @@ function deleteEntry(e){
       return response.json();
     }
   }).then(data => {
-    console.log(data.ok);
     main.innerHTML = "";
     getEntries();
 
@@ -624,14 +625,16 @@ function getComments(id){
       str += "</div>";
       main.innerHTML += str;
     });
-    main.innerHTML += `
-      <form id="commentForm">
-        <textarea name="content" placeholder="skriv en kommentar..."></textarea>
-        <input type="hidden" value="${id}" name="entryID">
-        <button>Skicka</button>
-      </form>
-    `;
-    addCommentFormListener();
+    if(loggedIn){
+      main.innerHTML += `
+        <form id="commentForm">
+          <textarea name="content" placeholder="skriv en kommentar..."></textarea>
+          <input type="hidden" value="${id}" name="entryID">
+          <button>Skicka</button>
+        </form>
+      `;
+      addCommentFormListener();
+    }
 
   }).catch(error => {
     console.error(error);
