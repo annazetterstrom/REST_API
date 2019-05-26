@@ -44,17 +44,12 @@ let main = document.querySelector('main');
 
 if(loggedIn){
   renderView(views.loggedIn, nav);
-  renderView(views.greeting, main);
-  renderView(views.comment, main); 
-  renderView(views.entrySummary, main);
   addLoggedInNavListeners();
 } else {
   renderView(views.loggedOut, nav);
-  renderView(views.registerSuccess, main); 
-  renderView(views.entrySummary, main);
-  getEntries();
   addLoggedOutNavListeners();
 }
+getEntries();
 
 //funktioner
 function addloginlistener(){
@@ -398,9 +393,7 @@ function getEntries(){
       main.innerHTML = "<p class='alert alert-primary' role='alert'> Det finns inga inlägg </p>";
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
-      console.log(data)
       data.forEach(entry => {
-        console.log(entry);
         main.innerHTML += "<div class='margin'>"
         main.innerHTML += "<ul class='list-group list-group-flush'>"
         main.innerHTML += "<h2 class='title list-group-item' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
@@ -434,9 +427,7 @@ function getMyEntries(){
       main.innerHTML = "Det finns inga inlägg";
     } else {
       main.innerHTML = "";
-      console.log(data);
       data.forEach(entry => {
-        console.log(entry);
         main.innerHTML += '<hr>';
         main.innerHTML += "<h2 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
@@ -463,10 +454,11 @@ function getEntry(id, title, content){
   if(modaldarkness){
     modaldarkness.remove();
   }
-  main.innerHTML = '';
-  main.innerHTML += '<h1 class="title">' + title + '</h1>';
-  main.innerHTML += '<p class="content">' + content + '</p> ';
-  main.innerHTML += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
+  let str = "";
+  str += '<h1 class="title">' + title + '</h1>';
+  str += '<p class="content">' + content + '</p> ';
+  str += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
+  main.innerHTML = str;
 
   main.innerHTML +=`
   <!-- Button trigger modal -->
@@ -510,7 +502,6 @@ function getEntry(id, title, content){
 }
 
 function editEntry(e){
-  console.log("hello");
   let id = e.target.dataset.entryid; 
   let k = document.getElementById('editEntryForm');
   let formData = new FormData(k);
@@ -525,7 +516,56 @@ function editEntry(e){
       return response.json();
     }
   }).then(data => {
+    getEntry(data.entryID, data.title, data.content);
+
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+function editComment(e){
+  e.preventDefault();
+  console.log("hello edit comment");
+  let id = e.target.dataset.commentid;
+  //om button ligger i form
+  let k = e.target.parentNode;
+  let formData = new FormData(k);
+  fetch ('/api/comment/' + id, {
+    method: 'POST',
+    body: formData
+  }).then(response => {
+    if(!response.ok){
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Du måste vara inloggad för att redigera  kommentarer </p>";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
     console.log(data);
+    getEntry(data.entryID, data.title, data.content);
+
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+function deleteComment(e){
+  e.preventDefault();
+  console.log("hello delete comment");
+  let id = e.target.dataset.commentid;
+  console.log('/api/comment/' + id);
+  fetch ('/api/comment/' + id, {
+    method: 'DELETE'
+  }).then(response => {
+    if(!response.ok){
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Du måste vara inloggad för att redigera eller radera inlägg </p>";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
+    console.log(data);
+    main.innerHTML = "";
     getEntry(data.entryID, data.title, data.content);
 
   }).catch(error => {
@@ -571,11 +611,18 @@ function getComments(id){
     }
     data.forEach(comment => {
       console.log(comment);
-      main.innerHTML += "<div>";
-      main.innerHTML += "<p>" + comment.content + "</p>";
-      main.innerHTML += "<p>Skriven av: " + comment.username + "</p>";
-      main.innerHTML += "<small>" + comment.createdAt + "</small>";
-      main.innerHTML += "</div>";
+      let str = "";
+      str += "<div>";
+      str += "<p>" + comment.content + "</p>";
+      str += "<p>Skriven av: " + comment.username + "</p>";
+      str += "<small>" + comment.createdAt + "</small>";
+      str += "<form>";
+      str += "<input name='content' type='text'>";
+      str += "<button data-commentid='" + comment.commentID +"' class='btn btn-primary editcomment'>redigera</button>";
+      str += "<button data-commentid='" + comment.commentID +"' class='btn btn-danger deletecomment'>radera</button>";
+      str += "</form>";
+      str += "</div>";
+      main.innerHTML += str;
     });
     main.innerHTML += `
       <form id="commentForm">
@@ -600,6 +647,16 @@ function addCommentFormListener(e){
   let deletebtn = document.getElementById('delete-button');
   editbtn.addEventListener('click', editEntry);
   deletebtn.addEventListener('click', deleteEntry);
+
+  let editcommentbtns = document.getElementsByClassName('editcomment');
+  console.log(editcommentbtns[0]);
+  for(let i=0;i<editcommentbtns.length;i++){
+    editcommentbtns[i].addEventListener('click', editComment);
+  }
+  let deletecommentbtns = document.getElementsByClassName('deletecomment');
+  for(let i=0;i<deletecommentbtns.length;i++){
+    deletecommentbtns[i].addEventListener('click', deleteComment);
+  }
   commentForm.addEventListener('submit', e => {
     e.preventDefault();
     const formData = new FormData(commentForm);
@@ -618,8 +675,7 @@ function addCommentFormListener(e){
     }).then(data => {
         console.log(data);
         getEntry(data.entryID, data.title, data.content);
-      }
-    ).catch(error => {
+      }).catch(error => {
         console.error(error);
     });
   });
