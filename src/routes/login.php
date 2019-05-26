@@ -10,7 +10,7 @@ return function ($app) {
     if (isset($data['username']) && isset($data['password'])) {
       $user = new User($this->db);
       if($user->login($data['username'], $data['password'])){
-        return $response->withJson(array('loggedIn' => true, 'username' => $data['username']));
+        return $response->withJson(array('loggedIn' => true, 'username' => $data['username'], 'userID' => $_SESSION['userID']));
       }
     }
     return $response->withStatus(401);

@@ -20,7 +20,7 @@
     }
     if(isset($_SESSION['loggedIn'])){
   ?>
-  <template id="loggedIn"></template>
+  <template id="loggedIn" data-userid="<?php echo $_SESSION['userID']; ?>"></template>
   <?php
     }
   ?>

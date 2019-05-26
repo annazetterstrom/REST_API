@@ -22,8 +22,10 @@ let views = {
 //Fullösning: om $_SESSION['loggedIn'] är true i servern så laddar vi in en template med id=loggedIn i html just nu... It aint fancy but it works:p
 let logintag = document.getElementById('loggedIn');
 let loggedIn;
+let loggedInID;
 if(logintag){
    loggedIn = true;
+   loggedInID = logintag.dataset.userid;
 } else {
   loggedIn = false;
 }
@@ -79,6 +81,7 @@ function addloginlistener(){
           addloginlistener();
         } else {
           loggedIn = true;
+          loggedInID = data.userID;
           nav.innerHTML = "";
           renderView(views.loggedIn, nav);
           addLoggedInNavListeners();
@@ -398,7 +401,7 @@ function getEntries(){
       data.forEach(entry => {
         main.innerHTML += "<div class='margin'>"
         main.innerHTML += "<ul class='list-group list-group-flush'>"
-        main.innerHTML += "<h2 class='title list-group-item' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<h2 class='title list-group-item' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='hidden' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
         main.innerHTML += "</ul>";
         main.innerHTML += "</div>";
@@ -431,7 +434,7 @@ function getMyEntries(){
       main.innerHTML = "";
       data.forEach(entry => {
         main.innerHTML += '<hr>';
-        main.innerHTML += "<h2 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<h2 class='title' data-userid='" + entry.userID + "' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
       });
       let entries = document.getElementsByClassName('title');
@@ -446,12 +449,14 @@ function getMyEntries(){
 
 function getEntryfromListener(e){
   let id = e.target.dataset.entryid;
+  let userid = e.target.dataset.userid;
+  console.log(userid);
   let title = e.target.innerHTML;
   let content = document.querySelector("p[data-entryid='" + id + "']").innerHTML;
-  getEntry(id, title, content);
+  getEntry(id, title, content, userid);
 }
 
-function getEntry(id, title, content){
+function getEntry(id, title, content, userid){
   let modaldarkness = document.getElementsByClassName('modal-backdrop')[0];
   if(modaldarkness){
     document.body.classList.remove('modal-open');
@@ -460,7 +465,7 @@ function getEntry(id, title, content){
   let str = "";
   str += '<h1 class="title">' + title + '</h1>';
   str += '<p class="content">' + content + '</p> ';
-  if(loggedIn){
+  if(loggedIn && loggedInID == userid){
     str += '<button class="btn btn-danger" id="delete-button" data-entryid="'+ id + '"> Radera inlägg </button>';
     main.innerHTML = str;
 
@@ -485,7 +490,7 @@ function getEntry(id, title, content){
               <label for='exampleFormControlInput1'>Titel</label>
               <input name='title' type='text' class='form-control' id='exampleFormControlInput1' value='${title}' placeholder='Titel...'>
             </div>
-            <input type='hidden' value='${id}'>
+            <input type='hidden' name='entryid' value='${id}'>
             <div class='form-group'>
               <label for='exampleFormControlTextarea1'>Content</label>
               <textarea name='content' class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Content...'>${content}</textarea>
@@ -521,7 +526,7 @@ function editEntry(e){
       return response.json();
     }
   }).then(data => {
-    getEntry(data.entryID, data.title, data.content);
+    getEntry(data.entryID, data.title, data.content, data.userID);
 
   }).catch(error => {
     console.error(error);
@@ -546,7 +551,7 @@ function editComment(e){
       return response.json();
     }
   }).then(data => {
-    getEntry(data.entryID, data.title, data.content);
+    getEntry(data.entryID, data.title, data.content, data.userID);
 
   }).catch(error => {
     console.error(error);
@@ -568,7 +573,7 @@ function deleteComment(e){
     }
   }).then(data => {
     main.innerHTML = "";
-    getEntry(data.entryID, data.title, data.content);
+    getEntry(data.entryID, data.title, data.content, data.userID);
 
   }).catch(error => {
     console.error(error);
@@ -617,11 +622,13 @@ function getComments(id){
       str += "<p>" + comment.content + "</p>";
       str += "<p>Skriven av: " + comment.username + "</p>";
       str += "<small>" + comment.createdAt + "</small>";
-      str += "<form>";
-      str += "<input name='content' type='text'>";
-      str += "<button data-commentid='" + comment.commentID +"' class='btn btn-primary editcomment'>redigera</button>";
-      str += "<button data-commentid='" + comment.commentID +"' class='btn btn-danger deletecomment'>radera</button>";
-      str += "</form>";
+      if(loggedInID == comment.createdBy){
+        str += "<form>";
+        str += "<input name='content' type='text'>";
+        str += "<button data-commentid='" + comment.commentID +"' class='btn btn-primary editcomment'>redigera</button>";
+        str += "<button data-commentid='" + comment.commentID +"' class='btn btn-danger deletecomment'>radera</button>";
+        str += "</form>";
+      }
       str += "</div>";
       main.innerHTML += str;
     });
@@ -648,8 +655,10 @@ function addCommentFormListener(e){
   
   let editbtn = document.getElementById('edit-button');
   let deletebtn = document.getElementById('delete-button');
-  editbtn.addEventListener('click', editEntry);
-  deletebtn.addEventListener('click', deleteEntry);
+  if(editbtn){
+    editbtn.addEventListener('click', editEntry);
+    deletebtn.addEventListener('click', deleteEntry);
+  }
 
   let editcommentbtns = document.getElementsByClassName('editcomment');
   console.log(editcommentbtns[0]);
@@ -677,7 +686,7 @@ function addCommentFormListener(e){
       }
     }).then(data => {
         console.log(data);
-        getEntry(data.entryID, data.title, data.content);
+        getEntry(data.entryID, data.title, data.content, data.userID);
       }).catch(error => {
         console.error(error);
     });
@@ -734,7 +743,7 @@ function getUserEntries(e){
       data.forEach(entry => {
         console.log(entry);
         main.innerHTML += '<hr>';
-        main.innerHTML += "<h1 class='title' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<h1 class='title' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
       });
       let entries = document.getElementsByClassName('title');
