@@ -422,6 +422,7 @@ function getMyEntries(){
   method: 'GET'
 }).then(response => {
     if(!response.ok){
+      //nej -.-
       main.innerHTML = "Avengers, assemble!";
       return Error(response.statusText);
     }else{
