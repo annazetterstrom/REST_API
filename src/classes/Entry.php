@@ -61,9 +61,7 @@ class Entry extends Mapper {
 //   Search-function
   public function getSearchEntries($input){
     $statement = $this->db->prepare("SELECT * FROM entries WHERE title LIKE '%$input%' OR content LIKE '%$input%'");
-    $statement->execute([
-        ':userID' => $userID
-    ]);
+    $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
