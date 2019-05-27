@@ -66,17 +66,14 @@ function addloginlistener(){
       body: formData
     }).then(response => {
       if(!response.ok){
-        console.log("fail");
         main.innerHTML = "";
         renderView(views.loginError, main);
         addloginlistener();
         return Error(response.statusText);
       } else{
-        console.log("yey");
         return response.json();
       }
     }).then(data => {
-        console.log(data);
         if(!data.loggedIn){
           main.innerHTML = "";
           renderView(views.loginError, main);
@@ -89,7 +86,6 @@ function addloginlistener(){
           addLoggedInNavListeners();
           getEntries();
         }
-        console.log(data);
       }
     ).catch(error => {
         console.error(error);
@@ -101,24 +97,20 @@ function addRegisterlistener(){
   registerForm = document.querySelector('#registerForm');
   registerForm.addEventListener('submit', e => {
     e.preventDefault();
-    console.log('hej', e);
     const formData = new FormData(registerForm)
     fetch ('/api/register', {
       method: 'POST',
       body: formData
     }).then(response => {
       if(!response.ok){
-        console.log("fail");
         main.innerHTML = "";
         renderView(views.registerError, main);
         addRegisterlistener();
         return Error(response.statusText);
       }else{
-        console.log("yey");
         return response.json();
       }
     }).then(data => {
-        console.log(data);
         if(data.registred){
           main.innerHTML = "";
           renderView(views.registerSuccess, main);
@@ -139,16 +131,13 @@ function logout(){
     method: 'GET'
   }).then(response => {
     if(!response.ok){
-      console.log("fail");
       main.innerHTML = "";
       renderView(views.logoutError, main);
       return Error(response.statusText);
     }else{
-      console.log("yey");
       return response.json();
     }
   }).then(data => {
-      console.log(data);
       if(data.loggedOut){
         loggedIn = false;
         nav.innerHTML = "";
@@ -178,28 +167,23 @@ function writeNewEntrylistener(){
       body: formData
     }).then(response => {
       if(!response.ok){
-        console.log("fail");
         main.innerHTML = "";
         renderView(views.errorNewEntry, main);
         writeNewEntrylistener();
         return Error(response.statusText);
       } else{
-        console.log("yey");
         return response.json();
       }
     }).then(data => {
-        console.log(data);
         if(!data.ok===true){
           main.innerHTML = "";
           renderView(views.errorNewEntry, main);
           writeNewEntrylistener();
-          console.log("laddar om sidan");
         } else {
           main.innerHTML = "<p class='alert alert-success' role='alert'> Inlägget skapades </p> ";
           //renderView(views.greeting, main);
           //renderView(views.comment, main);
         }
-        console.log(data);
       }
     ).catch(error => {
         console.error(error);
@@ -219,13 +203,11 @@ function summaryEntryListener(){
       body: formData
     }).then(response => {
       if(!response.ok){
-        console.log("fail");
         main.innerHTML = "";
         renderView(views.entrySummaryError, main);
         addloginlistener();
         return Error(response.statusText);
       }else{
-        console.log("yey");
         nav.innerHTML = "";
         renderView(views.entrySuccess, nav);
         return response.json();
@@ -243,7 +225,6 @@ function summaryEntryListener(){
           main.innerHTML = "";
           renderView(views.entrySummary, main);
         }
-        console.log(data);
       }
     ).catch(error => {
         console.error(error);
@@ -262,11 +243,9 @@ function fullEntries(){
       body: formData
     }).then(response => {
       if(!response.ok){
-        console.log("fail");
         main.innerHTML = "Det blev något fel";
         return Error(response.statusText);
       }else{
-        console.log("yey");
         main.innerHTML = "";
         renderView(views.fullEntries, main);
         return response.json();
@@ -285,7 +264,6 @@ function fullEntries(){
           renderView(views.entriesError, main);
           renderView(views.entries, main);
         }
-        console.log(data);
       }
     ).catch(error => {
         console.error(error);
@@ -302,31 +280,26 @@ function addLoggedInNavListeners(){
 
   myEntriesLink.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log("nu är du i myentries");
     getMyEntries();
   });
   postEntryLink.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log("nu är du i postentry");
     main.innerHTML="";
     renderView(views.newEntry, main); 
     writeNewEntrylistener();
   });
   logoutLink.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log("nu är du i logout");
     logout();
   });
   for(let i=0;i<homeLink.length;i++){
     homeLink[i].addEventListener('click', (e) => {
       e.preventDefault();
-      console.log("nu är du i hem");
       getEntries();
     });
   }
   userlistLink.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log("nu är du i userlist");
     getUsers();
   });
 }
@@ -340,26 +313,22 @@ function addLoggedOutNavListeners(){
   for(let i=0;i<homeLink.length;i++){
     homeLink[i].addEventListener('click', (e) => {
       e.preventDefault();
-      console.log("nu är du i hem");
       main.innerHTML = "";
       getEntries();
     });
   }
   userlistLink.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log("nu är du i userlist");
     getUsers();
   });
   registerLink.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log("nu är du i register");
     main.innerHTML = "";
     renderView(views.register, main);
     addRegisterlistener();
   });
   loginLink.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log("nu är du i login");
     main.innerHTML = "";
     renderView(views.login, main);
     addloginlistener();
@@ -397,14 +366,20 @@ function getEntries(){
     }
   }).then(data => {
     if(data.length < 1){
-      main.innerHTML = "<p class='alert alert-primary' role='alert'> Det finns inga inlägg </p>";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Det finns inga inlägg </p>";
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
+      // Sök-knappen  
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post'><input type='text' name='search' onkeyup='searchFunction()' placeholder='Search'><input type='submit' value='sök' name='submit'></form>";
       data.forEach(entry => {
         main.innerHTML += "<div class='margin'>"
-        main.innerHTML += "<ul class='list-group list-group-flush'>"
+        main.innerHTML += "<ul class='list-group list-group-flush' id='wrapper'>"
+        main.innerHTML += "<li>"
+        main.innerHTML += "<a href='#' class='search'>"
         main.innerHTML += "<h2 class='title list-group-item' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='hidden' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
+        main.innerHTML += "</a>";
+        main.innerHTML += "</li>";
         main.innerHTML += "</ul>";
         main.innerHTML += "</div>";
       });
@@ -432,7 +407,7 @@ function getMyEntries(){
     }
   }).then(data => {
     if(data.length === 0){
-      main.innerHTML = "Det finns inga inlägg";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Du har inte gjort några inlägg.</p>";
     } else {
       main.innerHTML = "";
       data.forEach(entry => {
@@ -440,6 +415,7 @@ function getMyEntries(){
         main.innerHTML += '<hr>';
         main.innerHTML += "<h2 class='title' data-userid='" + entry.userID + "' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
+       // main.innerHTML += "<button class='btn btn-outline-secondary like-review'><i class='fa fa-heart' aria-hidden='true'></i> Like</button>";
       });
       let entries = document.getElementsByClassName('title');
       for(let i=0;i<entries.length;i++){
@@ -454,7 +430,6 @@ function getMyEntries(){
 function getEntryfromListener(e){
   let id = e.target.dataset.entryid;
   let userid = e.target.dataset.userid;
-  console.log(userid);
   let title = e.target.innerHTML;
   let content = document.querySelector("p[data-entryid='" + id + "']").innerHTML;
   getEntry(id, title, content, userid);
@@ -508,7 +483,6 @@ function getEntry(id, title, content, userid){
         </div>
       </div>
     </div>`;
-    main.innerHTML += ` <button class="btn btn-outline-secondary like-review"><i class="fa fa-heart" aria-hidden="true"></i> Like</button>`;
   } else {
     main.innerHTML = str;
   }
@@ -539,7 +513,6 @@ function editEntry(e){
 
 function editComment(e){
   e.preventDefault();
-  console.log("hello edit comment");
   let id = e.target.dataset.commentid;
   //om button ligger i form
   let k = e.target.parentNode;
@@ -564,7 +537,6 @@ function editComment(e){
 
 function deleteComment(e){
   e.preventDefault();
-  console.log("hello delete comment");
   let id = e.target.dataset.commentid;
   fetch ('/api/comment/' + id, {
     method: 'DELETE'
@@ -605,7 +577,6 @@ function deleteEntry(e){
 }
 
 function getComments(id){
-  console.log('/api/comments/' + id)
   fetch ('/api/comments/' + id, {
     method: 'GET'
   }).then(response => {
@@ -620,7 +591,6 @@ function getComments(id){
       main.innerHTML += "<p class='alert alert-info' role='alert'> Det finns inga kommentarer till detta inlägg </p>";
     }
     data.forEach(comment => {
-      console.log(comment);
       let str = "";
       str += "<div>";
       str += "<p>" + comment.content + "</p>";
@@ -639,9 +609,9 @@ function getComments(id){
     if(loggedIn){
       main.innerHTML += `
         <form id="commentForm">
-          <textarea name="content" placeholder="skriv en kommentar..."></textarea>
+          <textarea class="textarea" name="content" placeholder="Skriv en kommentar..."></textarea> <br>
           <input type="hidden" value="${id}" name="entryID">
-          <button>Skicka</button>
+          <button class="send-button">Skicka</button>
         </form>
       `;
       addCommentFormListener();
@@ -654,7 +624,6 @@ function getComments(id){
 }
 
 function addCommentFormListener(e){
-  console.log("hello commentformlistener");
   commentForm = document.querySelector('#commentForm');
   
   let editbtn = document.getElementById('edit-button');
@@ -665,7 +634,6 @@ function addCommentFormListener(e){
   }
 
   let editcommentbtns = document.getElementsByClassName('editcomment');
-  console.log(editcommentbtns[0]);
   for(let i=0;i<editcommentbtns.length;i++){
     editcommentbtns[i].addEventListener('click', editComment);
   }
@@ -681,15 +649,12 @@ function addCommentFormListener(e){
       body: formData
     }).then(response => {
       if(!response.ok){
-        console.log("fail");
         main.innerHTML += "Något gick fel och kommentaren sparades inte :/";
         return Error(response.statusText);
       }else{
-        console.log("yey");
         return response.json();
       }
     }).then(data => {
-        console.log(data);
         getEntry(data.entryID, data.title, data.content, data.userID);
       }).catch(error => {
         console.error(error);
@@ -709,14 +674,13 @@ function getUsers(){
     }
   }).then(data => {
     if(data.length === 0){
-      main.innerHTML = "Det finns inga inlägg";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Det finns inga inlägg </p>";
     } else {
       main.innerHTML = "<h2 class='title';>Registrerade användare</h2>";
       data.forEach(user => {
         main.innerHTML += "<p class='users' data-userid='" + user.userID + "'>" + user.username + "</p>";
       });
       let users = document.getElementsByClassName('users');
-      console.log(users.length);
       for(let i=0;i<users.length;i++){
         users[i].addEventListener('click', getUserEntries);
       }
@@ -728,7 +692,6 @@ function getUsers(){
 // alla inläggen
 function getUserEntries(e){
   let userid = e.target.dataset.userid;
-  console.log('/api/entries/' + userid);
   fetch ('/api/entries/' + userid, {
     method: 'GET'
   }).then(response => {
@@ -739,13 +702,11 @@ function getUserEntries(e){
       return response.json();
     }
   }).then(data => {
-    console.log(data);
     if(data.length === 0){
       main.innerHTML = " <p class='alert alert-info' role='alert'> Det finns inga inlägg av den här användaren. </p>";
     } else {
-      main.innerHTML = "<h1>Dina senaste inlägg</h1>";
+      main.innerHTML = "<h1>Senaste inläggen</h1>";
       data.forEach(entry => {
-        console.log(entry);
         main.innerHTML += '<hr>';
         main.innerHTML += "<h1 class='title' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
