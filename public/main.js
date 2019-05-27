@@ -1,4 +1,4 @@
-(function(){
+const iife = (function(){
 
 let views = {
   newEntry: ['#CreateNewEntryTemplate'],
@@ -358,6 +358,7 @@ function searchFunction(e){
   var keywords = e.target.getElementsByTagName('input')[0].value;
   getSearchEntries(keywords);
 }
+
 function getEntries(){
   fetch ('/api/entries', {
     method: 'GET'
@@ -375,7 +376,7 @@ function getEntries(){
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
       // Search-button start 
-      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='searchFunction(event)'><input type='text' name='search' placeholder='Search'><input type='submit' value='sök' name='searchbtn'></form>";
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)'><input type='text' name='search' placeholder='Search'><input type='submit' value='sök' name='searchbtn'></form>";
       // Search-button end
       data.forEach(entry => {
         main.innerHTML += "<div class='margin'>"
@@ -744,7 +745,6 @@ function templateInserter(templateString, jsonarr){
   });
 }
 
-
 // Search-function
 function getSearchEntries(keywords){
   fetch ('/api/searchentry/' + keywords, {
@@ -763,7 +763,7 @@ function getSearchEntries(keywords){
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
       // Sök-knappen  
-      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='searchFunction (event)  '><input type='text' name='search' placeholder='Search'><input type='submit' value='sök'  name='searchbtn'></  form>";
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)  '><input type='text' name='search' placeholder='Search'><input type='submit' value='sök'  name='searchbtn'></  form>";
       main.innerHTML = "<h1>Sökträffar</h1>";
       data.forEach(entry => {
         console.log(entry);
@@ -787,4 +787,9 @@ function getSearchEntries(keywords){
     console.error(error);
   });
 }
+
+return{
+  searchFunction: searchFunction
+}
 })();
+
