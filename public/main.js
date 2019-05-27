@@ -398,11 +398,17 @@ function getEntries(){
       main.innerHTML = "<p class='alert alert-primary' role='alert'> Det finns inga inlägg </p>";
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
+      // Sök-knappen  
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post'><input type='text' name='search' onkeyup='searchFunction()' placeholder='Search'><input type='submit' value='sök' name='submit'></form>";
       data.forEach(entry => {
         main.innerHTML += "<div class='margin'>"
-        main.innerHTML += "<ul class='list-group list-group-flush'>"
+        main.innerHTML += "<ul class='list-group list-group-flush' id='wrapper'>"
+        main.innerHTML += "<li>"
+        main.innerHTML += "<a href='#' class='search'>"
         main.innerHTML += "<h2 class='title list-group-item' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='hidden' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
+        main.innerHTML += "</a>";
+        main.innerHTML += "</li>";
         main.innerHTML += "</ul>";
         main.innerHTML += "</div>";
       });

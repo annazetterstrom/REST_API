@@ -171,3 +171,21 @@ button.send-button{
 textarea.textarea{
   height: 100px;
 }
+
+/* Search */
+.search-bar {
+  position: fixed;
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+  max-width: 344px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  z-index: 2;
+}
+
+li{
+list-style-type: none;
+}
