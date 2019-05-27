@@ -58,6 +58,15 @@ class Entry extends Mapper {
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
+//   Search-function
+  public function getSearchEntries($input){
+    $statement = $this->db->prepare("SELECT * FROM entries WHERE title LIKE '%$input%' OR content LIKE '%$input%'");
+    $statement->execute([
+        ':userID' => $userID
+    ]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
    public function deleteEntriesByID($entryID){
        $statement = $this->db->prepare("DELETE FROM entries WHERE entryID = :entryID");
        $statement->execute([

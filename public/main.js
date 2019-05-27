@@ -381,7 +381,12 @@ function renderView(view, target){
     target.append(div);
   });
 }
-
+// Search-function
+function searchFunction(e){
+  e.preventDefault();
+  var keywords = e.target.getElementsByTagName('input')[0].value;
+  getSearchEntries(keywords);
+}
 function getEntries(){
   fetch ('/api/entries', {
     method: 'GET'
@@ -398,8 +403,9 @@ function getEntries(){
       main.innerHTML = "<p class='alert alert-primary' role='alert'> Det finns inga inlägg </p>";
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
-      // Sök-knappen  
-      main.innerHTML += "<form class='search-bar' name='form-serach' method='post'><input type='text' name='search' onkeyup='searchFunction()' placeholder='Search'><input type='submit' value='sök' name='submit'></form>";
+      // Search-button start 
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='searchFunction(event)'><input type='text' name='search' placeholder='Search'><input type='submit' value='sök' name='searchbtn'></form>";
+      // Search-button end
       data.forEach(entry => {
         main.innerHTML += "<div class='margin'>"
         main.innerHTML += "<ul class='list-group list-group-flush' id='wrapper'>"
@@ -776,5 +782,48 @@ function templateInserter(templateString, jsonarr){
         });
       document.body.appendChild(a);
     }); 
+  });
+}
+
+// Search-function
+function getSearchEntries(keywords){
+  fetch ('/api/searchentry/' + keywords, {
+    method: 'GET'
+  }).then(response => {
+    if(!response.ok){
+      main.innerHTML = "Verkar ha blivit något fel på serversidan när vi försökte komma åt inläggen :/";
+      return Error(response.statusText);
+    }else{
+      return response.json();
+    }
+  }).then(data => {
+    console.log(data);
+    if(data.length === 0){
+      main.innerHTML = " <p class='alert alert-info' role='alert'> Din sökning gav inga träffar. </p>";
+    } else {
+      main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
+      // Sök-knappen  
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='searchFunction (event)  '><input type='text' name='search' placeholder='Search'><input type='submit' value='sök'  name='searchbtn'></  form>";
+      main.innerHTML = "<h1>Sökträffar</h1>";
+      data.forEach(entry => {
+        console.log(entry);
+        main.innerHTML += "<div class='margin'>"
+        main.innerHTML += "<ul class='list-group list-group-flush' id='wrapper'>"
+        main.innerHTML += "<li>"
+        main.innerHTML += "<a href='#' class='search'>"
+        main.innerHTML += "<h2 class='title list-group-item' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
+        main.innerHTML += "<p class='hidden' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
+        main.innerHTML += "</a>";
+        main.innerHTML += "</li>";
+        main.innerHTML += "</ul>";
+        main.innerHTML += "</div>";
+      });
+      let entries = document.getElementsByClassName('title');
+      for(let i=0;i<entries.length;i++){
+        entries[i].addEventListener('click', getEntryfromListener);
+      }
+    }
+  }).catch(error => {
+    console.error(error);
   });
 }

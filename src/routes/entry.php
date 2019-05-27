@@ -30,6 +30,13 @@ return function ($app) {
     return $response->withJson($entry->get20Entries($num));
   });
 
+  // Serach-funktion
+  $app->get('/api/searchentry/{keywords}', function ($request, $response, $args) {
+    $keywords = $args['keywords'];
+    $entry = new Entry($this->db);
+    return $response->withJson($entry->getSearchEntries($keywords));
+  });
+
 
   $app->get('/api/fullEntries', function ($request, $response, $args) {
     $userID = $_SESSION['userID'];
