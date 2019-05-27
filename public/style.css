@@ -27,7 +27,7 @@ header>h1{
   border-left-style: solid;
 }
 
-h1,h2 {
+h1,h2,h3 {
   color: #e74c3c;
   color: rgb(50, 50, 50);
   margin-bottom: 60px;
