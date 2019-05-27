@@ -22,7 +22,7 @@ let views = {
 }
 
 //Fullösning: om $_SESSION['loggedIn'] är true i servern så laddar vi in en template med id=loggedIn i html just nu... It aint fancy but it works:p
-let logintag = document.getElementById('loggedIn');
+let logintag = document.getElementById('loggedIn'); //lol, ändringar
 let loggedIn;
 let loggedInID;
 if(logintag){
