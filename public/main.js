@@ -364,7 +364,7 @@ function getEntries(){
     }
   }).then(data => {
     if(data.length < 1){
-      main.innerHTML = "<p class='alert alert-primary' role='alert'> Det finns inga inlägg </p>";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Det finns inga inlägg </p>";
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
       // Sök-knappen  
@@ -404,7 +404,7 @@ function getMyEntries(){
     }
   }).then(data => {
     if(data.length === 0){
-      main.innerHTML = "Det finns inga inlägg";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Du har inte gjort några inlägg.</p>";
     } else {
       main.innerHTML = "";
       data.forEach(entry => {
@@ -670,7 +670,7 @@ function getUsers(){
     }
   }).then(data => {
     if(data.length === 0){
-      main.innerHTML = "Det finns inga inlägg";
+      main.innerHTML = "<p class='alert alert-info' role='alert'> Det finns inga inlägg </p>";
     } else {
       main.innerHTML = "<h2 class='title';>Registrerade användare</h2>";
       data.forEach(user => {
@@ -701,7 +701,7 @@ function getUserEntries(e){
     if(data.length === 0){
       main.innerHTML = " <p class='alert alert-info' role='alert'> Det finns inga inlägg av den här användaren. </p>";
     } else {
-      main.innerHTML = "<h1>Dina senaste inlägg</h1>";
+      main.innerHTML = "<h1>Senaste inläggen</h1>";
       data.forEach(entry => {
         main.innerHTML += '<hr>';
         main.innerHTML += "<h1 class='title' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
