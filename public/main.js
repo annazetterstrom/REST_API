@@ -1,3 +1,5 @@
+(function(){
+
 let views = {
   newEntry: ['#CreateNewEntryTemplate'],
   errorNewEntry: ['#CreateNewEntryTemplate', '#errorNewEntryTamplate'],
@@ -434,6 +436,7 @@ function getMyEntries(){
     } else {
       main.innerHTML = "";
       data.forEach(entry => {
+        console.log(entry);
         main.innerHTML += '<hr>';
         main.innerHTML += "<h2 class='title' data-userid='" + entry.userID + "' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
@@ -773,3 +776,6 @@ function templateInserter(templateString, jsonarr){
     }); 
   });
 }
+
+
+})();

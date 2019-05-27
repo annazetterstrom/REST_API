@@ -51,7 +51,7 @@ class Entry extends Mapper {
    }
    
    public function fullEntries($userID) {
-    $statement = $this->db->prepare("SELECT title, entryID, content FROM entries WHERE userID = :userID");
+    $statement = $this->db->prepare("SELECT * FROM entries WHERE userID = :userID");
     $statement->execute([
         ':userID' => $userID
     ]);
