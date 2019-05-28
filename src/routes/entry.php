@@ -14,7 +14,7 @@ return function ($app) {
 
   $app->get('/api/entries', function ($request, $response, $args) {
     $entry = new Entry($this->db);
-    return $response->withJson($entry->getAllEntries());
+    return $response->withJson($entry->get20Entries(1));
   });
 
   $app->get('/api/entries/{id}', function ($request, $response, $args) {
