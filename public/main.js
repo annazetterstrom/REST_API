@@ -83,6 +83,7 @@ function addloginlistener(){
           loggedInID = data.userID;
           nav.innerHTML = "";
           renderView(views.loggedIn, nav);
+          document.querySelector('#show-username b u').innerHTML = data.username;
           addLoggedInNavListeners();
           getEntries();
         }

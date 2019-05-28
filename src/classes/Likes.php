@@ -2,10 +2,26 @@
 
 class Likes extends Mapper{
     public function getLikesByEntryID($entryID){
-        $statement = $this->db->prepare("SELECT * FROM likes INNER JOIN users ON likes.createdBy = users.userID WHERE entryID = :entryID ORDER BY createdAt ASC");
+        $statement = $this->db->prepare("SELECT COUNT(entryID) FROM likes AS num WHERE entryID = :entryID");
         $statement->execute([
             ":entryID" => $entryID
         ]);
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        $num = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement = $this->db->prepare("SELECT COUNT(entryID) FROM likes AS userlike WHERE entryID = :entryID, createdBy = :createdBy");
+        $statement->execute([
+            ":entryID" => $entryID,
+            ":createdBy" => $_SESSION['userID']
+        ]);
+        $userlike = $statement->fetch(PDO::FETCH_ASSOC)['userlike'];
+        if($userlike == 0){
+            $returnarr = array_merge(array('liked' => false), $num);
+        } else {
+            $returnarr = array_merge(array('liked' => true), $num);
+        }
        }
+
+       //insertLike
+       public function insertLike($entryID, 
+       )
+
 }
