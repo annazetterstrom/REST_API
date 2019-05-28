@@ -377,7 +377,7 @@ function getEntries(){
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
       // Search-button start 
-      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)'><input type='text' name='search' placeholder='Search'><input type='submit' value='sök' name='searchbtn'></form>";
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)'><input type='text' name='search' placeholder='Search..' class='search-input'><input type='submit' value='sök' name='searchbtn' class='serach-button'></form>";
       // Search-button end
       data.forEach(entry => {
         main.innerHTML += "<div class='margin'>"
@@ -763,8 +763,9 @@ function getSearchEntries(keywords){
       main.innerHTML = " <p class='alert alert-info' role='alert'> Din sökning gav inga träffar. </p>";
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
-      // Sök-knappen  
-      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)  '><input type='text' name='search' placeholder='Search'><input type='submit' value='sök'  name='searchbtn'></  form>";
+      // Search-input start 
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)  '><input type='text' name='search' placeholder='Search'><input type='submit' value='sök' name='searchbtn'></  form>";
+      // Search-input end
       main.innerHTML = "<h1>Sökträffar</h1>";
       data.forEach(entry => {
         console.log(entry);
