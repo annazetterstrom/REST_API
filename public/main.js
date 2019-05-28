@@ -789,7 +789,7 @@ function getSearchEntries(keywords){
 }
 
 return{
-  searchFunction: searchFunction
+  searchFunction: searchFunction // Global
 }
 })();
 
