@@ -1,10 +1,8 @@
 <?php
 
 return function ($app) {
-  // Register auth middleware
   $auth = require __DIR__ . '/../middlewares/auth.php';
 
-  // Basic protected GET route 
   $app->get('/api/entry/{id}', function ($request, $response, $args) {
     $entryID = $args['id'];
     $entry = new Entry($this->db);
@@ -26,17 +24,14 @@ return function ($app) {
   $app->get('/api/20entries/{num}', function ($request, $response, $args) {
     $num = $args['num'];
     $entry = new Entry($this->db);
-    //$num = 1 ger entries 1-20, $num = 2 ger entries 21-40 osv
     return $response->withJson($entry->get20Entries($num));
   });
 
-  // Serach-funktion
   $app->get('/api/searchentry/{keywords}', function ($request, $response, $args) {
     $keywords = $args['keywords'];
     $entry = new Entry($this->db);
     return $response->withJson($entry->getSearchEntries($keywords));
   });
-
 
   $app->get('/api/fullEntries', function ($request, $response, $args) {
     $userID = $_SESSION['userID'];
@@ -62,7 +57,6 @@ return function ($app) {
     $data = $request->getParsedBody();
     $entryID = $args['id'];
     $entry = new Entry($this->db);
-    ;
     return $response->withJson($entry->updateEntryByID($entryID, $data['title'], $data['content']));
   })->add($auth);
 
