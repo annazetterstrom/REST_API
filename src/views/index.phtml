@@ -96,6 +96,9 @@
             <a  href="#" class="nav-link post-entry-link">Skriv inlägg</a>
           </li>
           <li class="nav-item">
+            <p id="show-username" class="nav-link"> <b><u> <?php session_start(); $username = $_SESSION['username']; echo $username;?> </u></b></p>
+          </li>
+          <li class="nav-item">
             <a  href="#" id="logout-btn" class="nav-link logout-link btn btn-primary">Logga ut</a>
           </li>
         </ul>
