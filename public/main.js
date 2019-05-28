@@ -375,9 +375,9 @@ function getEntries(){
     if(data.length < 1){
       main.innerHTML = "<p class='alert alert-info' role='alert'> Det finns inga inlägg </p>";
     } else {
-      main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
+      main.innerHTML = "<h2 class='title'>Senaste inläggen av våra användare</h2>";
       // Search-button start 
-      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)'><input type='text' name='search' placeholder='Search'><input type='submit' value='sök' name='searchbtn'></form>";
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)'><input type='text' name='search' placeholder='Search..' class='search-input'><input type='submit' value='sök' name='searchbtn' class='serach-button'></form>";
       // Search-button end
       data.forEach(entry => {
         main.innerHTML += "<div class='margin'>"
@@ -402,13 +402,11 @@ function getEntries(){
 }
 
 function getMyEntries(){
-  //det kan vara bra om vi döper om den här endpointen här och i entry.php sen
   fetch ('/api/fullEntries',{ 
   method: 'GET'
 }).then(response => {
     if(!response.ok){
-      //nej -.-
-      main.innerHTML = "Avengers, assemble!";
+      main.innerHTML = "";
       return Error(response.statusText);
     }else{
       return response.json();
@@ -589,7 +587,7 @@ function getComments(id){
     method: 'GET'
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "fuckups på serversidan";
+      main.innerHTML = "";
       return Error(response.statusText);
     }else{
       return response.json();
@@ -763,8 +761,9 @@ function getSearchEntries(keywords){
       main.innerHTML = " <p class='alert alert-info' role='alert'> Din sökning gav inga träffar. </p>";
     } else {
       main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
-      // Sök-knappen  
-      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)  '><input type='text' name='search' placeholder='Search'><input type='submit' value='sök'  name='searchbtn'></  form>";
+      // Search-input start 
+      main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)  '><input type='text' name='search' placeholder='Search'><input type='submit' value='sök' name='searchbtn'></  form>";
+      // Search-input end
       main.innerHTML = "<h1>Sökträffar</h1>";
       data.forEach(entry => {
         console.log(entry);
