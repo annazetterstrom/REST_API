@@ -20,7 +20,7 @@
     }
     if(isset($_SESSION['loggedIn'])){ // Get info
   ?>
-  <template id="loggedIn" data-userid="<?php echo $_SESSION['userID']; ?>"></template>
+    <template id="loggedIn" data-userid="<?php echo $_SESSION['userID']; ?>"></template>
   <?php
   }  ?> 
   <!-- LogIn form-->
@@ -29,10 +29,10 @@
     <form id="loginForm">
       <label for="username">Användarnamn:</label> <br>
       <input type="text" name="username" id="username">
-<br>  
+      <br>  
       <label for="password">Lösenord:</label> <br>
       <input type="password" name="password" id="password">
-<br> <br>
+      <br> <br>
       <button type="submit" class="button btn btn-success">Logga in</button>
     </form>
   </template>
@@ -43,38 +43,38 @@
     <form id="registerForm">
       <label for="username">Användarnamn:</label> <br>
       <input type="text" name="username" id="username">
-<br>
+      <br>
       <label for="password">Lösenord:</label> <br>
       <input type="password" name="password" id="password">
-<br> <br>
+      <br> <br>
       <button type="submit" class="button btn btn-primary">Registrera</button>
     </form>
   </template> 
   <!--Showing error with a message when trying to logging-->
   <template id="loginErrorTemplate">
-  <div class="alert alert-danger" role="alert">
-    Något blev fel med inloggningen
+    <div class="alert alert-danger" role="alert">
+      Något blev fel med inloggningen
     </div>
   </template>
   <!--Showing error with a message when trying to create new user-->
   <template id="registerErrorTemplate">
     <div class="alert alert-danger" role="alert">
-    Användarnamnet finns redan
+      Användarnamnet finns redan
     </div>
   </template>
 
  
   <!--Showing error with a message when trying to logout-->
   <template id="logoutErrorTemplate">
-  <div class="alert alert-danger" role="alert">
-    Något blev fel med utloggningen
+    <div class="alert alert-danger" role="alert">
+      Något blev fel med utloggningen
     </div>
   </template>
   <!--Showing success with a message when logging out-->
   <template id="logoutSuccessTemplate">
-  <div class="alert alert-info" role="alert">
-    Du är utloggad
-</div>
+    <div class="alert alert-info" role="alert">
+      Du är utloggad
+    </div>
   </template>
   <!--Showing a loggedin navbar with options and the User that is loggedin-->
   <template id="loggedInNavTemplate">
@@ -138,8 +138,7 @@
     <h3 class="loginNext">Logga in med dina nya användaruppgifter</h3>
     <p class="alert alert-success" role="alert">Användaren har nu skapats</p>
   </template>
-<!---->
-
+  <!--Showing a message when commenting on a enntry-->
   <template id="commentFormTemplate">
     <h2>Kommentera inlägget</h2>
     <form id="commentForm">
@@ -147,47 +146,43 @@
       <button type="submit">Skicka</button>
     </form>
   </template>
-
+  <!--Showing message when user does not have any own entries-->
  <template id="entriesErrorTemplate">
- <div class="alert alert-danger" role="alert">
-  Det finns inga inlägg här
-</div>
+  <div class="alert alert-danger" role="alert">
+    Det finns inga inlägg här
+  </div>
  </template>
 
-
+  <!--Create a new entry with a form-->
  <template id="CreateNewEntryTemplate">
- <h2 class='title'>Skapa ett inlägg</h2>
- <form id="newEntryForm">
-  <div class="form-group">
-    <label for="entrytitle">Titel:</label>
-    <input name="title" type="text" class="form-control" id="entrytitle" placeholder="Titel">
-  </div>
-  <div class="form-group">
-    <label for="entrycontent"></label>
-    <textarea name="content" class="form-control" id="entrycontent" rows="20" col="10" placeholder="Skriv ditt inlägg här"></textarea>
-  </div>
-  <button class="btn btn-success">Skicka</button>
-</form>
+    <h2 class='title'>Skapa ett inlägg</h2>
+    <form id="newEntryForm">
+      <div class="form-group">
+        <label for="entrytitle">Titel:</label>
+        <input name="title" type="text" class="form-control" id="entrytitle" placeholder="Titel">
+      </div>
+      <div class="form-group">
+        <label for="entrycontent"></label>
+        <textarea name="content" class="form-control" id="entrycontent" rows="20" col="10" placeholder="Skriv ditt inlägg här"></textarea>
+      </div>
+      <button class="btn btn-success">Skicka</button>
+    </form>
  </template>
-
+  <!--showing error message when entry does not post-->
  <template id="errorNewEntryTamplate">
- <div class="alert alert-danger" role="alert">
-  Inlägget skapades ej
-</div>
+  <div class="alert alert-danger" role="alert">
+    Inlägget skapades ej
+  </div>
  </template>
-
- 
-
- 
 
   <div id="nav"></div>
   <div class="container">
-  
+  <!--Shows the title Journal in the header on every page-->
     <header>
       <h1><?= $title ?></h1>
     </header>
     <main>
-      <!-- Allt som skrivs här hamnar i main.js -->
+      <!-- Everything in here shows in main.js -->
     </main>
   </div>
  
