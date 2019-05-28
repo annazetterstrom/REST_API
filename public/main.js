@@ -4,13 +4,10 @@ let views = {
   newEntry: ['#CreateNewEntryTemplate'],
   errorNewEntry: ['#CreateNewEntryTemplate', '#errorNewEntryTamplate'],
   entries: ['#entryTemplate'],
-  entrySummary: ['#entrySummaryTemplate'],
   entrySummaryError: ['#entrySummaryErrorTemplate'],
   entryError: ['#entryErrorTemplate'],
-  comment: ['#commentsTemplate'],
   registerSuccess: ['#greetingNewUserTemplate'],
   registerError: ['#registerFormTemplate', '#registerErrorTemplate'],
-  greeting: ['#greetingTemplate'],
   login: ['#loginFormTemplate'],
   loginError: ['#loginFormTemplate', '#loginErrorTemplate'],
   register: ['#registerFormTemplate'],
@@ -21,8 +18,7 @@ let views = {
   entriesError: ['#entriesErrorTemplate']
 }
 
-//Fullösning: om $_SESSION['loggedIn'] är true i servern så laddar vi in en template med id=loggedIn i html just nu... It aint fancy but it works:p
-let logintag = document.getElementById('loggedIn'); //lol, ändringar
+let logintag = document.getElementById('loggedIn');
 let loggedIn;
 let loggedInID;
 if(logintag){
@@ -34,7 +30,7 @@ if(logintag){
 
 let loginForm;
 let registerForm;
-//"länk element"
+
 let homeLink;
 let myEntriesLink;
 let userlistLink;
@@ -55,7 +51,9 @@ if(loggedIn){
 }
 getEntries();
 
-//funktioner
+//Functions
+
+// Log in
 function addloginlistener(){
   loginForm = document.querySelector('#loginForm');
   loginForm.addEventListener('submit', e => {
@@ -94,6 +92,7 @@ function addloginlistener(){
   });
 }
 
+// Add new user
 function addRegisterlistener(){
   registerForm = document.querySelector('#registerForm');
   registerForm.addEventListener('submit', e => {
@@ -127,6 +126,7 @@ function addRegisterlistener(){
   });
 }
 
+// Log out
 function logout(){
   fetch ('/api/logout', {
     method: 'GET'
@@ -157,7 +157,7 @@ function logout(){
   });
 }
 
-// skriva ett inlägg
+// Write post
 function writeNewEntrylistener(){
   newEntryForm = document.querySelector('#newEntryForm');
   newEntryForm.addEventListener('submit', e => {
@@ -182,8 +182,6 @@ function writeNewEntrylistener(){
           writeNewEntrylistener();
         } else {
           main.innerHTML = "<p class='alert alert-success' role='alert'> Inlägget skapades </p> ";
-          //renderView(views.greeting, main);
-          //renderView(views.comment, main);
         }
       }
     ).catch(error => {
@@ -192,86 +190,7 @@ function writeNewEntrylistener(){
   });
 }
 
-
- // visar summerade inlägg 
-function summaryEntryListener(){
-  summaryEntryForm = document.querySelector('#summaryEntryForm');
-  summaryEntryForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const formData = new FormData(summaryEntryForm)
-    fetch ('/api/summaryEntry', {
-      method: 'POST',
-      body: formData
-    }).then(response => {
-      if(!response.ok){
-        main.innerHTML = "";
-        renderView(views.entrySummaryError, main);
-        addloginlistener();
-        return Error(response.statusText);
-      }else{
-        nav.innerHTML = "";
-        renderView(views.entrySuccess, nav);
-        return response.json();
-      }
-    }).then(data => {
-        if(!data.comment){
-          main.innerHTML = "";
-          renderView(views.entryError, main);
-          addloginlistener();
-        } else {
-          nav.innerHTML = "";
-          renderView(views.entrySuccess, nav);
-          addLoggedInNavListeners();
-          //add nav listeners
-          main.innerHTML = "";
-          renderView(views.entrySummary, main);
-        }
-      }
-    ).catch(error => {
-        console.error(error);
-    })
-  });
-}
-// Visa allt, Titel och Innehåll, inloggat läge
-
-function fullEntries(){
-  TitelAndContentForm = document.querySelector('#TitelAndContentTemplate');
-  TitelAndContentForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const formData = new FormData(TitelAndContentForm)
-    fetch ('/api/TitelAndContent', {
-      method: 'POST',
-      body: formData
-    }).then(response => {
-      if(!response.ok){
-        main.innerHTML = "Det blev något fel";
-        return Error(response.statusText);
-      }else{
-        main.innerHTML = "";
-        renderView(views.fullEntries, main);
-        return response.json();
-      }
-    }).then(data => {
-        if(!data.comment){
-          main.innerHTML = "";
-          renderView(views.entriesError, main);
-          addloginlistener();
-        } else {
-          nav.innerHTML = "";
-          renderView(views.entriesSuccess, nav);
-          addLoggedInNavListeners();
-          //add nav listeners
-          main.innerHTML = "";
-          renderView(views.entriesError, main);
-          renderView(views.entries, main);
-        }
-      }
-    ).catch(error => {
-        console.error(error);
-    })
-  });
-}
-
+// Menu as loggedin
 function addLoggedInNavListeners(){
   homeLink = document.querySelectorAll('.home-link');
   userlistLink = document.querySelector('.userlist-link');
@@ -305,6 +224,7 @@ function addLoggedInNavListeners(){
   });
 }
 
+// Menu as loggedout
 function addLoggedOutNavListeners(){
   homeLink = document.querySelectorAll('.home-link');
   userlistLink = document.querySelector('.userlist-link');
@@ -337,19 +257,19 @@ function addLoggedOutNavListeners(){
 }
 
 function renderView(view, target){
-  // Definera ett target
+  // Define target
 
-  // Loopa igenom våran "view"
+  // Run through "view"
   view.forEach(template => {
-    // Hämta innehållet i templaten
+    // Get content in template
     const templateMarkup = document.querySelector(template).innerHTML;
  
-    // Skapa en div
+    // Create div
     const div = document.createElement('div');
-    // Fyll i diven med innehållet
+    // Add content in div
     div.innerHTML = templateMarkup;
     
-    // Lägg in den diven i target (main-elementet)
+    // Add div in target (main-elementet)
     target.append(div);
   });
 }
@@ -360,6 +280,7 @@ function searchFunction(e){
   getSearchEntries(keywords);
 }
 
+// Entries (title and content) in home
 function getEntries(){
   fetch ('/api/entries', {
     method: 'GET'
@@ -401,6 +322,7 @@ function getEntries(){
   });
 }
 
+// Posts in "Mina inlägg"
 function getMyEntries(){
   fetch ('/api/fullEntries',{ 
   method: 'GET'
@@ -421,7 +343,6 @@ function getMyEntries(){
         main.innerHTML += '<hr>';
         main.innerHTML += "<h2 class='title' data-userid='" + entry.userID + "' data-userid='" + entry.userID + "' data-entryid='" + entry.entryID + "'>" + entry.title + "</h2>";
         main.innerHTML += "<p class='content' data-entryid='" + entry.entryID + "'>" + entry.content + "</p>";
-       // main.innerHTML += "<button class='btn btn-outline-secondary like-review'><i class='fa fa-heart' aria-hidden='true'></i> Like</button>";
       });
       let entries = document.getElementsByClassName('title');
       for(let i=0;i<entries.length;i++){
@@ -433,6 +354,7 @@ function getMyEntries(){
   });
 }
 
+// Get user, title, content and userid
 function getEntryfromListener(e){
   let id = e.target.dataset.entryid;
   let userid = e.target.dataset.userid;
@@ -441,6 +363,7 @@ function getEntryfromListener(e){
   getEntry(id, title, content, userid);
 }
 
+// Create, edit, delete and comment posts
 function getEntry(id, title, content, userid){
   let modaldarkness = document.getElementsByClassName('modal-backdrop')[0];
   if(modaldarkness){
@@ -495,6 +418,7 @@ function getEntry(id, title, content, userid){
   getComments(id);
 }
 
+// Edit posts
 function editEntry(e){
   let id = e.target.dataset.entryid; 
   let k = document.getElementById('editEntryForm');
@@ -517,10 +441,10 @@ function editEntry(e){
   });
 }
 
+// Edit in comments
 function editComment(e){
   e.preventDefault();
   let id = e.target.dataset.commentid;
-  //om button ligger i form
   let k = e.target.parentNode;
   let formData = new FormData(k);
   fetch ('/api/comment/' + id, {
@@ -541,6 +465,7 @@ function editComment(e){
   });
 }
 
+// Delete comment
 function deleteComment(e){
   e.preventDefault();
   let id = e.target.dataset.commentid;
@@ -582,6 +507,7 @@ function deleteEntry(e){
   });
 }
 
+// Get comments from database
 function getComments(id){
   fetch ('/api/comments/' + id, {
     method: 'GET'
@@ -593,6 +519,7 @@ function getComments(id){
       return response.json();
     }
   }).then(data => {
+    // If there's no comments
     if(data.length === 0){
       main.innerHTML += "<p class='alert alert-info' role='alert'> Det finns inga kommentarer till detta inlägg </p>";
     }
@@ -629,11 +556,12 @@ function getComments(id){
 
 }
 
+// Comments
 function addCommentFormListener(e){
   commentForm = document.querySelector('#commentForm');
   
-  let editbtn = document.getElementById('edit-button');
-  let deletebtn = document.getElementById('delete-button');
+  let editbtn = document.getElementById('edit-button'); // "Redigera"
+  let deletebtn = document.getElementById('delete-button'); // "Radera"
   if(editbtn){
     editbtn.addEventListener('click', editEntry);
     deletebtn.addEventListener('click', deleteEntry);
@@ -655,7 +583,7 @@ function addCommentFormListener(e){
       body: formData
     }).then(response => {
       if(!response.ok){
-        main.innerHTML += "Något gick fel och kommentaren sparades inte :/";
+        main.innerHTML += "Något gick fel och kommentaren sparades inte.";
         return Error(response.statusText);
       }else{
         return response.json();
@@ -668,12 +596,13 @@ function addCommentFormListener(e){
   });
 }
 
+// Get users
 function getUsers(){
   fetch ('/api/users', {
     method: 'GET'
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "Verkar ha blivit något fel på serversidan när vi försökte komma åt användarna :/";
+      main.innerHTML = "Verkar ha blivit något fel på serversidan när vi försökte komma åt användarna.";
       return Error(response.statusText);
     }else{
       return response.json();
@@ -695,7 +624,7 @@ function getUsers(){
     console.error(error);
   });
 }
-// alla inläggen
+// All posts
 function getUserEntries(e){
   let userid = e.target.dataset.userid;
   fetch ('/api/entries/' + userid, {
@@ -724,23 +653,6 @@ function getUserEntries(e){
     }
   }).catch(error => {
     console.error(error);
-  });
-}
-
-function templateInserter(templateString, jsonarr){
-  let temp = document.querySelector(templateString);
-  jsonarr.forEach(jsonobj => {
-    let items = temp.content.querySelectorAll("*");
-    items.forEach(item => {
-      let a = document.importNode(item, true);
-        let entries = Object.entries(jsonobj);
-        entries.forEach(entry => {
-          if(a.dataset.templatekey === entry[0]){
-              a.textContent = entry[1];
-          }
-        });
-      document.body.appendChild(a);
-    }); 
   });
 }
 
@@ -788,6 +700,7 @@ function getSearchEntries(keywords){
   });
 }
 
+// Make searchfunction global
 return{
   searchFunction: searchFunction
 }
