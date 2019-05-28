@@ -18,10 +18,23 @@ class Likes extends Mapper{
         } else {
             $returnarr = array_merge(array('liked' => true), $num);
         }
-       }
+        return $statement->$returnarr;
+    }
 
        //insertLike
-       public function insertLike($entryID, 
-       )
+    public function insertLike($entryID){
+        $createdAt = date('Y-m-d H:i:s');
+        $createdBy = $_SESSION['userID'];
+        $statement = $this->db->prepare("INSERT INTO likes (entryID, createdBy, createdAt) VALUES ('$entryID', '$createdBy', '$createdAt')");
+        $statement->execute([
+            ":entryID" => $entryID
+        ]);
+        $statement = $this->db->prepare("SELECT * FROM entries WHERE entryID = :entryID");
+        $statement->execute([
+            ':entryID' => $entryID 
+        ]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+
+    }
 
 }
