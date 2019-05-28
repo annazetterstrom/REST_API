@@ -15,10 +15,10 @@
 <body>
   <?php
     if (session_status() == PHP_SESSION_NONE) {
-        session_set_cookie_params(3600*24*365*10); //session-cookien varar i 10 år.
+        session_set_cookie_params(3600*24*365*10); 
         session_start();
     }
-    if(isset($_SESSION['loggedIn'])){ // Get info
+    if(isset($_SESSION['loggedIn'])){ 
   ?>
     <template id="loggedIn" data-userid="<?php echo $_SESSION['userID']; ?>"></template>
   <?php
