@@ -402,13 +402,11 @@ function getEntries(){
 }
 
 function getMyEntries(){
-  //det kan vara bra om vi döper om den här endpointen här och i entry.php sen
   fetch ('/api/fullEntries',{ 
   method: 'GET'
 }).then(response => {
     if(!response.ok){
-      //nej -.-
-      main.innerHTML = "Avengers, assemble!";
+      main.innerHTML = "";
       return Error(response.statusText);
     }else{
       return response.json();
@@ -589,7 +587,7 @@ function getComments(id){
     method: 'GET'
   }).then(response => {
     if(!response.ok){
-      main.innerHTML = "fuckups på serversidan";
+      main.innerHTML = "";
       return Error(response.statusText);
     }else{
       return response.json();
