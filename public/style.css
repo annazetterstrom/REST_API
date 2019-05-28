@@ -178,12 +178,29 @@ textarea.textarea{
   left: 50%;
   top: 8px;
   transform: translateX(-50%);
-  max-width: 344px;
   background: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   z-index: 2;
+  height: auto;
+}
+
+.search-input{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+}
+
+.serach-button{
+  background-color: rgba(210, 255, 173, 0.623);
+  color: #04090b;
+  width: 80px;
+  border: 1px solid #7cff4096
+}
+
+.serach-button:hover{
+  background-color: rgba(159, 240, 93, 0.623);
+  color: #04090b;
 }
 
 li{
