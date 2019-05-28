@@ -375,7 +375,7 @@ function getEntries(){
     if(data.length < 1){
       main.innerHTML = "<p class='alert alert-info' role='alert'> Det finns inga inlägg </p>";
     } else {
-      main.innerHTML = "<h2 class='title'>Senaste inläggen</h2>";
+      main.innerHTML = "<h2 class='title'>Senaste inläggen av våra användare</h2>";
       // Search-button start 
       main.innerHTML += "<form class='search-bar' name='form-serach' method='post' onsubmit='iife.searchFunction(event)'><input type='text' name='search' placeholder='Search'><input type='submit' value='sök' name='searchbtn'></form>";
       // Search-button end
