@@ -4,6 +4,7 @@ body {
   padding: 0;
   margin-bottom: 80px;
 }
+
 header>h1{
   padding: 10px;
   font-family: Georgia, 'Times New Roman', Times, serif;
@@ -18,17 +19,16 @@ header>h1{
 }
 
 .container{
-  border: 10px solid rgba(41, 40, 40, 0.541); 
+  border: 8px dotted rgba(131, 120, 120, 0.541); 
   max-width: 1000px;
   margin: 100px auto 0 auto;
-  border-top-style: double;
-  border-right-style: solid;
-  border-bottom-style: double;
-  border-left-style: solid;
+  border-top-style: solid;
+  border-right-style: dotted;
+  border-bottom-style: solid;
+  border-left-style: dotted;
 }
 
 h1,h2,h3 {
-  color: #e74c3c;
   color: rgb(50, 50, 50);
   margin-bottom: 60px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -115,9 +115,6 @@ main{
   border-radius: 10px;
   width: 20%;
 }
-.button:hover{
-  background-color:rgba(165, 42, 42, 0.137);
-}
 
 .card{
   height: 50px;
@@ -131,7 +128,7 @@ main{
 
 h2.title.list-group-item{
   border: 2px groove rgba(0, 0, 0, 0.541); 
-  -webkit-animation: mymove 10s infinite; /* Chrome, Safari, Opera */
+  -webkit-animation: mymove 10s infinite;
   animation: mymove 10s infinite;
 }
 
@@ -146,7 +143,6 @@ h2.title.list-group-item{
 
 h2.title.list-group-item:hover{
   background-color: rgb(226, 208, 208);
-  /* height: 67px; */
   font-size: 33px;
 }
 .users{
@@ -172,7 +168,7 @@ textarea.textarea{
   height: 100px;
 }
 
-/* Search */
+/* Search start */
 .search-bar {
   position: fixed;
   left: 50%;
@@ -203,6 +199,13 @@ textarea.textarea{
   color: #04090b;
 }
 
+/* Search end */
+
 li{
 list-style-type: none;
+}
+
+#show-username{
+  font-family: cursive;
+  font-size: 22px;
 }
