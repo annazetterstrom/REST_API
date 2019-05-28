@@ -18,12 +18,13 @@
         session_set_cookie_params(3600*24*365*10); //session-cookien varar i 10 år.
         session_start();
     }
-    if(isset($_SESSION['loggedIn'])){
+    if(isset($_SESSION['loggedIn'])){ // Get info
   ?>
   <template id="loggedIn" data-userid="<?php echo $_SESSION['userID']; ?>"></template>
   <?php
-    }  ?>
-  <template id="loginFormTemplate">
+  }  ?> 
+  <!-- LogIn form-->
+  <template id="loginFormTemplate"> 
     <h2 class="registerLogin">Logga in</h2>
     <form id="loginForm">
       <label for="username">Användarnamn:</label> <br>
@@ -36,6 +37,7 @@
     </form>
   </template>
 
+  <!--Register form-->
   <template id="registerFormTemplate">
     <h2 class="registerLogin">Registrera en ny användare</h2>
     <form id="registerForm">
@@ -48,13 +50,13 @@
       <button type="submit" class="button btn btn-primary">Registrera</button>
     </form>
   </template> 
-
+  <!--Showing error with a message when trying to logging-->
   <template id="loginErrorTemplate">
   <div class="alert alert-danger" role="alert">
     Något blev fel med inloggningen
     </div>
   </template>
-
+  <!--Showing error with a message when trying to create new user-->
   <template id="registerErrorTemplate">
     <div class="alert alert-danger" role="alert">
     Användarnamnet finns redan
@@ -62,19 +64,19 @@
   </template>
 
  
-  
+  <!--Showing error with a message when trying to logout-->
   <template id="logoutErrorTemplate">
   <div class="alert alert-danger" role="alert">
     Något blev fel med utloggningen
     </div>
   </template>
-  
+  <!--Showing success with a message when logging out-->
   <template id="logoutSuccessTemplate">
   <div class="alert alert-info" role="alert">
     Du är utloggad
 </div>
   </template>
-
+  <!--Showing a loggedin navbar with options and the User that is loggedin-->
   <template id="loggedInNavTemplate">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <a  href="#" id="btn-journal" class="navbar-brand home-link">Journal</a>
@@ -105,7 +107,7 @@
       </div>
     </nav>
   </template>
-
+<!--Showing a logged out navbar with options-->
   <template id="loggedOutNavTemplate">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <a href="#" id="btn-journal" class="navbar-brand home-link">Journal</a>
@@ -130,21 +132,13 @@
       </div>
     </nav>
   </template>
-  
-  <template id="greetingTemplate">
-    <h2>Välkommen till Journal</h2>
-    <p>🍑</p>
-  </template>
-
+  <!--Showing a message when a new User register-->
   <template id="greetingNewUserTemplate">
     <h2 class="welcome">Välkommen!</h2>
     <h3 class="loginNext">Logga in med dina nya användaruppgifter</h3>
     <p class="alert alert-success" role="alert">Användaren har nu skapats</p>
   </template>
-
-  <template id="commentsTemplate">
-   <p>🍑Greetings! Här kan du kommentera🍑</p>
-  </template>
+<!---->
 
   <template id="commentFormTemplate">
     <h2>Kommentera inlägget</h2>
@@ -154,38 +148,12 @@
     </form>
   </template>
 
-  <template id="entrySummaryTemplate">
-    <h2 data-templatemark="title">Titel:</h2>
-  </template>
-
-  <template id="entryTemplate">
-    <h2>Titel:</h2>
-    <p>Innehåll:</p>
-  </template>
-
-  <template id="entryErrorTemplate">
-  <div class="alert alert-danger" role="alert">
-   Inläggen går ej att visa
-</div>
-  </template>
-
-  <template id="entrySummaryErrorTemplate">
-  <div class="alert alert-danger" role="alert">
-  Summerade inlägget går ej att visa
-</div>
-  </template>
-
-
  <template id="entriesErrorTemplate">
  <div class="alert alert-danger" role="alert">
   Det finns inga inlägg här
 </div>
  </template>
 
- <!-- Titel och content ska läggas här -->
- <template id="TitelAndContentTemplate">
-    <h1>Titel och innehåll</h1>
- </template>
 
  <template id="CreateNewEntryTemplate">
  <h2 class='title'>Skapa ett inlägg</h2>

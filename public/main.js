@@ -702,7 +702,7 @@ function getSearchEntries(keywords){
 
 // Make searchfunction global
 return{
-  searchFunction: searchFunction
+  searchFunction: searchFunction // Global
 }
 })();
 
