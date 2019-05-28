@@ -617,7 +617,7 @@ function getComments(id){
         <form id="commentForm">
           <textarea class="textarea" name="content" placeholder="Skriv en kommentar..."></textarea> <br>
           <input type="hidden" value="${id}" name="entryID">
-          <button class="send-button">Skicka</button>
+          <button class="send-button btn btn-success">Skicka</button>
         </form>
       `;
       addCommentFormListener();
